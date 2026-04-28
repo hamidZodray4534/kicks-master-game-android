@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/be_vietnam_pro_black</item>
+        <item>@font/be_vietnam_pro_bold</item>
+        <item>@font/be_vietnam_pro_extrabold</item>
+        <item>@font/changa_one</item>
+        <item>@font/epilogue</item>
+        <item>@font/epilogue_black</item>
+        <item>@font/epilogue_bold</item>
+        <item>@font/epilogue_semibold</item>
+        <item>@font/lexend</item>
+        <item>@font/lexend_black</item>
+        <item>@font/lexend_bold</item>
+        <item>@font/lexend_semibold</item>
+        <item>@font/poppins_light</item>
+        <item>@font/poppins_medium</item>
+        <item>@font/poppins_regular</item>
+        <item>@font/poppins_semibold</item>
+    </array>
+</resources>

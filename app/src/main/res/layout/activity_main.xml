@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/kick_home_bg">
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  LAYER 1: WebView — the actual game                    -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <WebView
+        android:id="@+id/gameWebView"
+        android:background="@drawable/main_background_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!--  LAYER 2: Main Game HUD (the Rocket Riper game screen) -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/splashScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_bottom_grass"
+            android:src="@drawable/kick_grass"
+            android:layout_width="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="@dimen/_145sdp"/>
+
+
+
+
+        <!-- Main content vertical layout -->
+        <LinearLayout
+            android:id="@+id/llc_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical">
+
+
+            <!-- ── TOP BAR: Currency + Controls ────────────────── -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_75sdp"
+                android:gravity="center_vertical">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/kick_header_top_home"/>
+
+                <RelativeLayout
+                    android:layout_gravity="top"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_app_icon"
+                        android:scaleType="fitCenter"
+                        android:layout_marginTop="-10dp"
+                        app:srcCompat="@drawable/kick_app_logo"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_40sdp"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <!-- COINS -->
+                        <FrameLayout
+                            android:id="@+id/pill_coins"
+                            android:background="@drawable/custom_score_bg"
+                            android:layout_width="@dimen/_52sdp"
+                            android:layout_height="@dimen/_27sdp">
+                            <RelativeLayout
+                                android:layout_marginStart="@dimen/_6sdp"
+                                android:layout_marginEnd="@dimen/_6sdp"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/iv_coins"
+                                    app:srcCompat="@drawable/kick_coin"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_width="@dimen/_16sdp"
+                                    android:layout_height="@dimen/_16sdp"/>
+
+                                <TextView
+                                    android:id="@+id/tv_coins"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_toEndOf="@+id/iv_coins"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/epilogue"
+                                    android:maxLength="5"
+                                    android:paddingStart="@dimen/_2sdp"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:textColor="#013622"
+                                    android:text="0" />
+                            </RelativeLayout>
+                        </FrameLayout>
+                        <!-- GEMS -->
+                        <FrameLayout
+                            android:id="@+id/pill_gems"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:layout_toEndOf="@+id/pill_coins"
+                            android:background="@drawable/custom_score_bg"
+                            android:layout_width="@dimen/_52sdp"
+                            android:layout_height="@dimen/_27sdp">
+                            <RelativeLayout
+                                android:layout_marginStart="@dimen/_6sdp"
+                                android:layout_marginEnd="@dimen/_6sdp"
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/iv_gems"
+                                    app:srcCompat="@drawable/kick_gem"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_width="@dimen/_16sdp"
+                                    android:layout_height="@dimen/_16sdp"/>
+
+                                <TextView
+                                    android:id="@+id/tv_gems"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_toEndOf="@+id/iv_gems"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/epilogue_semibold"
+                                    android:maxLength="6"
+                                    android:paddingStart="@dimen/_2sdp"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:textColor="#013622"
+                                    android:text="0" />
+                            </RelativeLayout>
+                        </FrameLayout>
+
+
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/btn_settings"
+                            app:srcCompat="@drawable/kick_setting"
+                            android:layout_marginStart="@dimen/_6sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+
+        <!-- ── MEGA OFFER CARD ─────────────────────────────── -->
+        <FrameLayout
+            android:id="@+id/frame_mega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/llc_top_bar"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_19sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:elevation="@dimen/_6sdp"
+                android:background="@drawable/kick_collection_progress_section"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rtl_mega_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/kick_mega_bg"
+                    android:layout_height="@dimen/_75sdp">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/iv_treasure_box"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lexend_bold"
+                            android:text="Mega Offer"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_20ssp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend"
+                                android:text="Complete Offer "
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <TextView
+                                android:id="@+id/tvOfferCount"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:background="@drawable/rectangle_40523"
+                                android:fontFamily="@font/changa_one"
+                                android:paddingTop="1dp"
+                                android:textAlignment="center"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13ssp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:id="@+id/iv_treasure_box"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/treasure_box"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llc_claim_progress"
+                   android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/rtl_mega_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Label row -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="@dimen/_18sdp"
+                        android:paddingStart="@dimen/_3sdp"
+                        android:paddingEnd="@dimen/_3sdp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_progress_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:letterSpacing="0.08"
+                            android:text="COLLECTION PROGRESS"
+                            android:fontFamily="@font/lexend_black"
+                            android:textColor="@color/rr_orange"
+                            android:textSize="@dimen/_8ssp" />
+
+                        <TextView
+                            android:id="@+id/tvProgressPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_14sdp"
+                            android:text="100%"
+                            android:fontFamily="@font/lexend_black"
+                            android:textColor="@color/rr_orange"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                    <!-- PROGRESS and CLAIM container -->
+                    <FrameLayout
+                        android:id="@+id/frame_parent_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:background="@drawable/custom_progress_bar_bg">
+
+                        <!-- Progress Track (Visible when < 100%) -->
+                        <FrameLayout
+                            android:id="@+id/flProgressView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="2dp">
+
+                            <ProgressBar
+                                android:id="@+id/pbCollectionProgress"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:progressDrawable="@drawable/custom_progress_bar"
+                                android:max="5"
+                                android:progress="2" />
+                            <TextView
+                                android:id="@+id/tvProgressFraction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/lexend_bold"
+                                tools:text="0 / 20 GEMS"
+                                android:textColor="#FFD500"
+                                android:textSize="@dimen/_14ssp" />
+
+
+                        </FrameLayout>
+
+                        <!-- CLAIM button (Visible when 100%) -->
+                        <FrameLayout
+                            android:id="@+id/btnClaimReward"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tv_claim_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:letterSpacing="0.12"
+                                android:text="CLAIM"
+                                android:fontFamily="@font/changa_one"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14ssp" />
+
+                        </FrameLayout>
+
+                    </FrameLayout>
+
+
+
+                </LinearLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llc_score_update"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintTop_toBottomOf="@+id/frame_mega"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend_bold"
+                android:text="HIGHEST SCORE"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_28ssp" />
+
+            <TextView
+                android:id="@+id/tv_highest_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:fontFamily="@font/lexend_black"
+                android:letterSpacing="0.12"
+                android:text="0"
+                android:textColor="#006A34"
+                android:textSize="@dimen/_36ssp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- ── PLAY BUTTON (center-bottom) ────────────────────── -->
+        <FrameLayout
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_58sdp"
+            android:background="@drawable/kick_play_button"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bottom_grass"
+            app:layout_constraintTop_toTopOf="@+id/iv_bottom_grass"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_play_game"
+               android:text="PLAY"
+                android:textColor="@color/white"
+               android:layout_marginTop="@dimen/_4sdp"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/_30ssp"
+                android:fontFamily="@font/lexend_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+        </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+
+</FrameLayout>

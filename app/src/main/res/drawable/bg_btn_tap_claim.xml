@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Orange pill for TAP TO CLAIM button -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="0"
+        android:startColor="#F5A623"
+        android:centerColor="#F09010"
+        android:endColor="#E8821A"
+        android:type="linear" />
+    <corners android:radius="50dp" />
+</shape>

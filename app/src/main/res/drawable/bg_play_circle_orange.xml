@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Orange play button circle -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:angle="315"
+        android:startColor="#FFC107"
+        android:centerColor="#F5A623"
+        android:endColor="#E07B10"
+        android:type="linear" />
+</shape>

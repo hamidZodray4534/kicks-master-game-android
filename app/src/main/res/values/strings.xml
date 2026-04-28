@@ -1,0 +1,152 @@
+<resources>
+    <string name="app_name">Kicks Master</string>
+
+    <string name="admob_app_id">ca-app-pub-7664893030317051~7172115297</string>
+
+
+    <string name="let_s_authenticate">Let’s Authenticate</string>
+    <string name="web_client_id">627642806969-937uvc02l51h55sje7gllvrep7mm7k2u.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">570740479189-o028qiqq936q29oqure0a9rp2qo4b397.apps.googleusercontent.com</string>
+
+    <string name="signup_sub">Get rewarded, stay smart, with Zod Rewards The future of earning is here!</string>
+    <string name="auth_text">Authenticate with Google</string>
+    <string name="login_dialog_title">To enable our services, Zod Rewards requires the following information</string>
+    <string name="decline">Decline</string>
+    <string name="_1_personal_information">1. Personal Information:</string>
+    <string name="_2_device_information">2. Device Information:</string>
+    <string name="empty">empty</string>
+    <string name="accept">Accept</string>
+    <string name="acc_text">By Pressing \'Accept\', you are agreeing to our </string>
+    <string name="terms_and_conditions"> Terms And</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="conditions">Conditions</string>
+    <string name="and">and</string>
+    <string name="declined">Declined</string>
+    <string name="signup_title">Get rewarded, stay smart, with Zod Rewards The future of earning is here!</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="_00">+00</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="enter_your_gmail">Enter Your Gmail</string>
+    <string name="referral_code">Referral Code  (Optional)</string>
+    <string name="sign_up">Sign Up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="transaction">Transaction</string>
+    <string name="streaks">Streaks</string>
+    <string name="home">Home</string>
+    <string name="how_to_use_the_app">How to use the app?</string>
+    <string name="join_tl">Join Telegram \nTo Earn ₹100 Daily</string>
+    <string name="watch_the_tutorial_to_start_earning_now">Watch the tutorial to start earning now!</string>
+    <string name="hello">Hello,</string>
+    <string name="promocode">Promocode</string>
+    <string name="play_quiz">Play Quiz</string>
+    <string name="earning_apps">OfferWall</string>
+    <string name="invite_earn"><![CDATA[Invite & Earn]]></string>
+    <string name="burhan_uddin">Burhan Uddin</string>
+    <string name="zod_uid">Zod UID :</string>
+    <string name="_7872878xxxx">7872878xxxx</string>
+    <string name="to_collect_coins_fast">to collect coins fast</string>
+    <string name="super_offers">Super Offers</string>
+    <string name="play_games">Play Games</string>
+    <string name="practice_in_games_for_gems">Practice in games for gems</string>
+    <string name="read_and_earn_coins">Read and Earn Coins</string>
+    <string name="earn_up_to">Earn up to</string>
+    <string name="_1000_coins">1000 coins</string>
+    <string name="earn_now">Earn Now</string>
+    <string name="adjoe_games">Adjoe Games</string>
+    <string name="earn_free">Earn Free</string>
+    <string name="tyrads_games">TyrAds Games</string>
+    <string name="fun_games_with_free_coins">Fun Games with Free coins</string>
+    <string name="play_now">Play Now</string>
+    <string name="playtime_games">Playtime Games</string>
+    <string name="task_partners">Task Partners</string>
+    <string name="guest">Guest</string>
+    <string name="telegram_url_missing">Telegram URL not available</string>
+    <string name="id_copied">Zod ID copied</string>
+    <string name="survey_partners">Survey Partners</string>
+    <string name="watch_videos_amp_earn_coins"><![CDATA[Watch Videos & Earn Coins]]></string>
+    <string name="watch_videos_earn_coins"><![CDATA[Watch Videos & Earn Coins]]></string>
+    <string name="no_downloads_play_games_earn"><![CDATA[No Downloads, Play Games & Earn]]></string>
+    <string name="featured_games">Must Try Games</string>
+    <string name="recommended_games">Suggested for You</string>
+    <string name="collect_extra_coins">Collect Extra Coins</string>
+    <string name="follow_our_social_platforms">Follow our social platforms!</string>
+    <string name="close">Close</string>
+    <string name="enter_promo_code">Enter Promo Code</string>
+    <string name="enter_redeem_code">Enter Redeem Code</string>
+    <string name="note_you_will_get_redeem_code_on_telegram_channel">Note : You will get Redeem Code on Telegram Channel</string>
+    <string name="redeem">Redeem</string>
+    <string name="_100">100</string>
+    <string name="you_will_get_upto">You Will Get Up to</string>
+    <string name="get_codes_here">GET CODES HERE</string>
+    <string name="follow_us">Follow us!</string>
+    <string name="data_not_fount">data not found!</string>
+    <string name="earn_coins_by_playing_quizzes">Earn Coins by Playing Quizzes!</string>
+    <string name="start_quiz">Start Quiz</string>
+    <string name="refer_earn"><![CDATA[Refer & Earn]]></string>
+    <string name="rewards">Rewards</string>
+    <string name="collect">Collect</string>
+    <string name="congratulations">CONGRATULATIONS!</string>
+    <string name="you_are_awesome">You are Awesome!</string>
+    <string name="task_limit_reached">Task Limit Reached</string>
+    <string name="you_ve_completed_all_the_tasks_available_for_n_today_n_please_come_back_tomorrow_to_continue_earning_coins_and_redeem_your_rewards_see_you_tomorrow"><![CDATA[You’ve completed all the tasks available for \n today. \n Please come back tomorrow to continue earning coins and redeem your rewards! See you tomorrow! 👋]]></string>
+    <string name="limit_over">🚫Limit Over</string>
+    <string name="time_over">🚫 Recent Task Completed</string>
+    <string name="super_offer">Super Offer</string>
+    <string name="completed">Completed</string>
+    <string name="active">Active</string>
+    <string name="watch_ad">Watch Ad</string>
+    <string name="play_a_game">Play a game</string>
+    <string name="insufficient_gems">Insufficient Gems</string>
+    <string name="you_need_to_earn_more">You need to earn more</string>
+    <string name="you_have_succesfully_completed_task_now_click_on_the_claim_button_to_get_coins">You have succesfully completed Task, Now click on the claim button to get coins.</string>
+    <string name="exit">Exit</string>
+    <string name="sp_d">Finish all the necessary steps to claims your rewards.</string>
+    <string name="step_1">Step 1</string>
+    <string name="step_2">Step 2</string>
+    <string name="step_3">Step 3</string>
+    <string name="step_4">Step 4</string>
+    <string name="watch_a_video_ad">Watch a video ad.</string>
+    <string name="install_the_app_form_the_ad">Install the app form the Ad.</string>
+    <string name="use_the_app_for_at_least_2_minutes">Use the app for at least 2 minutes.</string>
+    <string name="earning_history">Earning History</string>
+    <string name="search_and_find_google_task">Search and Find : Google Task</string>
+    <string name="all_game">All Game</string>
+    <string name="please_turn_on_your_wifi_or_mobile_data">Please turn on your wifi or mobile data</string>
+    <string name="retry">Retry</string>
+    <string name="oops_no_internet_conection">Oops! No Internet Conection</string>
+    <string name="transactions">Transactions</string>
+    <string name="statistics">Statistics</string>
+    <string name="history">History</string>
+    <string name="reedem">Reedem</string>
+    <string name="not_enough_coins_for_redeem">🚫 Not Enough Coins for Redeem!</string>
+    <string name="not_enough_coins_for_redeem2">🚫 Not Enough Coins for Verify!</string>
+    <string name="redeem_warning_text">🎯 Complete tasks to earn more coins and unlock your rewards! 🎉"</string>
+    <string name="the_remaining_tasks_are">The remaining tasks are:</string>
+    <string name="no_winner_found">No winner found</string>
+    <string name="offerwall">Offerwall</string>
+    <string name="share_referral_link_earn_44_460"><![CDATA[Share Referral Link & Earn ₹44,460]]></string>
+    <string name="share_via">Share via</string>
+    <string name="refer_page_text"><![CDATA[https://appsz.in/cashpuppy?refer=0526164b&&code= 0526164b]]></string>
+    <string name="refer_history">Refer History</string>
+    <string name="payment_history">Payment\nHistory</string>
+    <string name="frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="search_and_earn_discover_task">Search and Earn : Discover Task</string>
+    <string name="promote_our_app">Promote Our App</string>
+    <string name="refrsss"><![CDATA[Note: The referred friend must complete at least 1 Super Offer Task & Read and Earn Task.]]></string>
+
+
+    <string-array name="spinner_items">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <item>Item 4</item>
+    </string-array>
+
+    <string name="facebook_app_id">511419025361121</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="no_history">No History!</string>
+    <string name="aptexr">Currently, there are no completed task comeback after completing task.</string>
+    <string name="mega_offer">Mega Offer</string>
+    <string name="new_offers">New Offers</string>
+</resources>

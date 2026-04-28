@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background_bg"
+    android:paddingBottom="@dimen/_14sdp"
+    tools:context=".MegaOfferActivity">
+
+    <!-- Top App Bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Mega Offer"
+            android:fontFamily="@font/lexend_bold"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- Divider under top bar -->
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+       app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- "How it works" heading -->
+            <TextView
+                android:id="@+id/tvHowItWorks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_38sdp"
+                android:layout_marginBottom="20dp"
+                android:text="How it works"
+                android:textAllCaps="true"
+                android:textColor="#013622"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/lexend_semibold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_28sdp"
+                android:layout_marginBottom="@dimen/_60sdp"
+                android:background="@drawable/view_background_bg"
+                app:layout_constraintBottom_toBottomOf="@+id/llc_content"
+                app:layout_constraintStart_toStartOf="@+id/llc_content"
+                app:layout_constraintTop_toTopOf="@+id/llc_content" />
+
+            <LinearLayout
+                android:id="@+id/llc_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHowItWorks">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:orientation="horizontal">
+                    <!-- Icon bg -->
+                    <TextView
+                        android:id="@+id/iv_play_icon_bg"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_menu_icon"
+                        android:fontFamily="@font/lexend_black"
+                        android:padding="@dimen/_8sdp"
+                        android:text="01"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/mega_play" />
+
+                    <!-- Step 1: Video ad -->
+                    <FrameLayout
+                        android:id="@+id/cardStep1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/custom_top_card_item_bg">
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_56sdp"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+
+                            <TextView
+                                android:id="@+id/tv_watch_video_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:fontFamily="@font/lexend"
+                                android:text="Video ad"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_watch_video"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_watch_video"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:fontFamily="@font/lexend"
+                                android:text="Watch a short video ad"
+                                android:textColor="#36654D"
+                                android:textSize="13sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_watch_video_title" />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:orientation="horizontal">
+                    <!-- Icon bg -->
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_menu_icon"
+                        android:fontFamily="@font/lexend_black"
+                        android:padding="@dimen/_8sdp"
+                        android:text="02"
+                        android:textAlignment="center"
+                        android:textColor="@color/app_text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/mega_play" />
+
+                    <!-- Step 1: Video ad -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/custom_top_card_item_bg">
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_42sdp"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:fontFamily="@font/lexend"
+                                android:text="Install App"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_watch_video"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:orientation="horizontal">
+                    <!-- Icon bg -->
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_menu_icon"
+                        android:fontFamily="@font/lexend_black"
+                        android:padding="@dimen/_8sdp"
+                        android:text="03"
+                        android:textAlignment="center"
+                        android:textColor="@color/app_text_color"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/mega_play" />
+
+                    <!-- Step 1: Video ad -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/custom_top_card_item_bg">
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_42sdp"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="14dp"
+                                android:fontFamily="@font/lexend"
+                                android:text="use App 2 minute"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_watch_video"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                        android:orientation="horizontal">
+                        <!-- Icon bg -->
+                        <TextView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_menu_icon_2"
+                            android:fontFamily="@font/lexend_black"
+                            android:padding="@dimen/_8sdp"
+                            android:text="04"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/mega_play" />
+
+                        <!-- Step 1: Video ad -->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/custom_bottom_card_item_bg">
+
+                            <ImageView
+                                android:layout_width="@dimen/_16sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="16dp"
+                                android:visibility="gone"
+                                android:contentDescription="Back"
+                                android:src="@drawable/lock_icon" />
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_80sdp"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+
+                                <TextView
+                                    android:id="@+id/tvRateSub"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:fontFamily="@font/lexend_bold"
+                                    android:text="Collect 200 coins"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toTopOf="@+id/tv_watch_video"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_marginTop="@dimen/_4sdp"
+                                    android:fontFamily="@font/lexend"
+                                    android:text="Return here to claim your reward. Instant transfer to your wallet."
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/tv_watch_video_title" />
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                        </FrameLayout>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btnWatchAd"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_38sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/custom_hit_claim_btn_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/llc_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:src="@drawable/play_video" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lexend_black"
+                            android:text="Watch Ad"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14ssp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

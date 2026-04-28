@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "524708376699",
+    "project_id": "kicks-master",
+    "storage_bucket": "kicks-master.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524708376699:android:349cf0eb3f222b58bd72de",
+        "android_client_info": {
+          "package_name": "com.kicks.master"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524708376699-mqrji3nc6ko7bjul5bsg684ef2b1c5p0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kicks.master",
+            "certificate_hash": "3a34d33b1ea269ef2e62b62c8c199cdd31ea38a5"
+          }
+        },
+        {
+          "client_id": "524708376699-jtle8ansbdvi100mfpf3r7ln35ls9527.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWNHViH0ExpKp7U7lEXFRPq7wZqZLtYkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524708376699-jtle8ansbdvi100mfpf3r7ln35ls9527.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

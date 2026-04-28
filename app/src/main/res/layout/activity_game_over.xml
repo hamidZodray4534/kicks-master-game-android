@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/main_background_bg">
+
+    <FrameLayout
+        android:id="@+id/frame_layout_claim_gem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/_28sdp"
+        android:paddingBottom="@dimen/_28sdp"
+        android:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="@dimen/_16sdp"
+
+            android:layout_marginBottom="@dimen/_10sdp">
+            <!-- ── Main centered card ──────────────────────────────────────────── -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/llc_navigation_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <LinearLayout
+                    android:id="@+id/llc_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/changa_one"
+                        android:text="Game\nOver"
+                        android:letterSpacing="0.02"
+                        android:textAllCaps="true"
+                        android:textColor="@color/app_text_color"
+                        android:textSize="@dimen/_32ssp" />
+
+
+
+
+                    <View
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_3sdp"
+                        android:background="@drawable/custom_hit_claim_btn_bg"
+                        android:backgroundTint="@color/red"
+                        android:layout_marginTop="@dimen/_8sdp" />
+
+
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    app:layout_constraintBottom_toTopOf="@+id/btnTapToClaim"
+                    app:layout_constraintTop_toBottomOf="@+id/llc_title">
+                    <!-- ── FINAL SCORE card ──────────────────────────────────── -->
+                    <RelativeLayout
+                        android:id="@+id/rtl_gems_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_18sdp"
+                        android:layout_marginEnd="@dimen/_18sdp"
+                        android:background="@drawable/custom_gem_reward_bg"
+                        android:elevation="1dp"
+                        android:paddingVertical="@dimen/_14sdp"
+                        android:paddingHorizontal="@dimen/_18sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_black"
+                                android:text="Finale Score"
+                                android:layout_gravity="center_horizontal"
+                                android:textAllCaps="true"
+                                android:textColor="#36654D"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <TextView
+                                android:id="@+id/tv_final_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_bold"
+                                android:layout_marginTop="-6dp"
+                                tools:text="1222"
+                                android:layout_gravity="center_horizontal"
+                                android:textAllCaps="true"
+                                android:textColor="#006A34"
+                                android:textSize="@dimen/_44ssp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_semibold"
+                                android:background="@drawable/custom_reward_grid"
+                                android:text="New personal best"
+                                android:layout_marginTop="@dimen/_6sdp"
+                                android:paddingHorizontal="@dimen/_14sdp"
+                                android:paddingVertical="@dimen/_6sdp"
+                                android:textAllCaps="true"
+                                android:textColor="#36654D"
+                                android:textSize="@dimen/_12ssp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_18sdp"
+                        android:layout_marginEnd="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:background="@drawable/custom_gem_reward_bg2"
+                        android:elevation="1dp"
+                        android:paddingVertical="@dimen/_14sdp"
+                        android:paddingHorizontal="@dimen/_18sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rtl_gems_card">
+
+
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                           android:layout_alignParentStart="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_black"
+                                android:text="EXTRACTION\nREWARDS"
+                                android:textColor="#006286"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_black"
+                                android:text="BONUS\nLOOT"
+                                android:layout_marginTop="@dimen/_8sdp"
+                                android:textColor="#013622"
+                                android:textSize="@dimen/_14ssp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_120sdp"
+                            android:layout_height="@dimen/_60sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/custom_reward_grid2"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_28sdp"
+                                android:layout_height="@dimen/_28sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                app:srcCompat="@drawable/kick_gem" />
+
+                            <TextView
+                                android:id="@+id/tv_gem_reward"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_gravity="center_vertical"
+                                android:fontFamily="@font/lexend_black"
+                                android:text="+1\nGem"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="@dimen/_15ssp" />
+
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!-- ── TAP TO CLAIM button ─────────────────────────────── -->
+                <FrameLayout
+                    android:id="@+id/btnTapToClaim"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_marginTop="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_52sdp"
+                        android:layout_gravity="top"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@drawable/custom_hit_claim_btn_bg"
+                        android:elevation="1dp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lexend_black"
+                                android:letterSpacing="0.05"
+                                android:text="TAP TO CLAIM "
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_15ssp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_gravity="center_vertical"
+                                app:srcCompat="@drawable/kick_field" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    </FrameLayout>
+
+
+
+                </FrameLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- ── Bottom action buttons row ──────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/llc_navigation_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/frameLayoutRetry"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/kick_retry" />
+                <!-- Retry / Replay -->
+
+                <View
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_40sdp" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnGoHome"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/kick_menu" />
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

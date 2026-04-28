@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="app_text_color">#013622</color>
+    <color name="failed_claim_text">#94A3B8</color>
+
+    <!-- Legacy Game UI Color Palette (kept for existing code) -->
+    <color name="game_bg_deep">#1C1108</color>
+    <color name="game_bg_mid">#0D1B3E</color>
+    <color name="game_accent_purple">#7B2FBE</color>
+    <color name="game_accent_cyan">#00D4FF</color>
+    <color name="game_accent_gold">#FFD700</color>
+    <color name="game_accent_orange">#FF6B35</color>
+    <color name="game_text_primary">#FFFFFF</color>
+    <color name="game_text_secondary">#A0B4C8</color>
+    <color name="game_btn_start">#FF6B35</color>
+    <color name="game_btn_replay">#7B2FBE</color>
+    <color name="game_overlay_bg">#CC0A0A1A</color>
+    <color name="game_card_bg">#1A2540</color>
+    <color name="game_star_color">#FFD700</color>
+
+    <!-- Rocket Riper Theme Colors -->
+    <color name="rr_bg_dark">#1C1108</color>
+    <color name="red">#B51621</color>
+    <color name="main_background_color">#231A0F</color>
+    <color name="status_bar_color">#5CDD48</color>
+    <color name="bottom_bar_color">#000000</color>
+    <color name="rr_bg_card">#2A1508</color>
+    <color name="rr_orange">#006A34</color>
+    <color name="rr_orange_dark">#E8821A</color>
+    <color name="rr_text_primary">#FFFFFF</color>
+    <color name="rr_text_secondary">#B0A090</color>
+    <color name="game_over_text">#B3FF8C00</color>
+    <color name="rr_text_muted">#6B5A4A</color>
+    <color name="rr_gem_blue">#4488FF</color>
+    <color name="rr_progress_text">#C97B1A</color>
+    <color name="version_text_color">#B6CAE4</color>
+</resources>
