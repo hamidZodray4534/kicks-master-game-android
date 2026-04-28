@@ -53,6 +53,15 @@ android {
             jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
         }
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+            keepDebugSymbols += "**/*.so"
+        }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -106,7 +115,7 @@ dependencies {
     implementation("com.inmobi.monetization:inmobi-ads-kotlin:10.8.0")
     implementation("com.google.ads.mediation:facebook:6.17.0.0")
     implementation("com.vungle:vungle-ads:7.4.2")
-    implementation("com.pangle.global:pag-sdk:7.2.0.6")
+    implementation("com.pangle.global:pag-sdk:7.9.0.9")
     // Fyber FairBid SDK
     implementation("com.fyber:fairbid-sdk:3.62.0")
 
