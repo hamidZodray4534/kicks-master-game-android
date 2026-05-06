@@ -9,7 +9,7 @@ object Constant {
 
     //getAppSignature()
 
-   // val BASE_URL: String = "https://test.zodwallet.app/"
+    // val BASE_URL: String = "https://test.zodwallet.app/"
     //val BASE_URL: String = "https://dev.zodwallet.app/"
     val DEV_KEY: String =
         "HCdtdsdsdsdsdsdsds2423423423vex4npUxPdO9jxTTCNt1PbNau5r7HC54353dsadas4324t1PbNau5r7"
@@ -55,6 +55,10 @@ object Constant {
     const val ADX_IMP_COUNT = "adx_impcount"
     const val SIGNUP_STATUS = "signup_status"
 
+    const val CLICK_ID = "click_id"
+    const val SUB_ID = "sub_id"
+    const val TRACKING_DONE = "tracking_done"
+
     // Boolean Keys
 
 
@@ -81,6 +85,7 @@ object Constant {
     const val PENDING_GAME_ID = "pending_game_id"
     const val IS_PRIMARY_PAUSED = "is_primary_paused"
     const val IS_SECONDARY_PAUSED = "is_secondary_paused"
+
     // Generic Pref Helper
     private fun getPrefs(context: Context, name: String): SharedPreferences {
         return context.getSharedPreferences(name, Context.MODE_PRIVATE)

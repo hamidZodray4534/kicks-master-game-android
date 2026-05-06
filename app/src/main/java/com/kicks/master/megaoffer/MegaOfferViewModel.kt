@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kicks.master.AppController
+import com.kicks.master.Constant
 import com.kicks.master.helper.apicall.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -22,25 +24,16 @@ class MegaOfferViewModel : ViewModel() {
     private val _event = MutableLiveData<Event?>()
     val event: LiveData<Event?> get() = _event
 
-    /**
-     * Called after the rewarded ad completes.
-     * @param rewardAmount gems earned from ad network
-     * @param coinReward   coins from MegaOfferSettings.win_coin_reward (passed in by Activity)
-     */
     fun onRewardEarned(rewardAmount: Int, coinReward: Int) {
         _event.value = Event.RewardEarned(gems = rewardAmount, coins = coinReward, rewardAmount = coinReward)
     }
 
-    /**
-     * Calls POST /offers/mega-offer/credit to credit coins/gems to the user.
-     * @param offerId obtained from fetchOfferReward in the Activity
-     * @param offerType obtained from MegaOfferSettings (slug)
-     */
-    fun creditMegaOffer(offerId: String, offerType: String) {
+    fun creditMegaOffer(offerId: String, offerType: String,clickId: String, subId: String) {
         viewModelScope.launch {
             try {
+
                 Log.d("MegaOfferViewModel", "► Calling creditMegaOffer API: offer_id=$offerId, offer_type=$offerType")
-                val response = RetrofitClient.apiService.addMegaOffer(offerId, offerType)
+                val response = RetrofitClient.apiService.addMegaOffer(offerId, offerType,clickId,subId)
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("MegaOfferViewModel", "► creditMegaOffer API Success: $body")

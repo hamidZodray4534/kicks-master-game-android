@@ -49,7 +49,9 @@ interface ApiService {
     @POST("offers/mega-offer/credit")
     suspend fun addMegaOffer(
         @Field("offer_id") offerId: String,
-        @Field("slug") offerType: String
+        @Field("slug") offerType: String,
+        @Field("clickId") clickId: String,
+        @Field("subId") subId: String
     ): Response<CoinCreditResponse>
 
     @FormUrlEncoded

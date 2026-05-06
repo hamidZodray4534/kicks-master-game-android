@@ -141,12 +141,12 @@ object Post_Request {
     /**
      * Credits rewards for Mega Offer completion.
      */
-    fun creditMegaOffer(activity: Activity, offerId: String) {
+    fun creditMegaOffer(activity: Activity, offerId: String, clickId: String, subId: String) {
         DialogUtils.showLoading(activity)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService.addMegaOffer(offerId,"mega_offer")
+                val response = apiService.addMegaOffer(offerId,"mega_offer",clickId,subId)
 
                 withContext(Dispatchers.Main) {
                     DialogUtils.hideLoading()

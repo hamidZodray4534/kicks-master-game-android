@@ -13,8 +13,8 @@ android {
         applicationId = "com.kicks.master"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "2.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -82,6 +82,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    // Install Referrer
+    implementation("com.android.installreferrer:installreferrer:2.2")
 
     // Firebase (BOM manages all versions)
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))

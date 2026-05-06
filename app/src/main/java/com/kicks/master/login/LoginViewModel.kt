@@ -33,7 +33,7 @@ class LoginViewModel : ViewModel() {
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    fun onGoogleAccountReceived(account: GoogleSignInAccount) {
+    fun onGoogleAccountReceived(account: GoogleSignInAccount,clickId: String,subId: String) {
         _loading.value = true
         Log.d(TAG, "Google account received → name=${account.displayName} email=${account.email}")
 
@@ -60,7 +60,9 @@ class LoginViewModel : ViewModel() {
                 signupType = "app",
                 uId = userId,
                 refer = "",
-                fcmtoken = fcmToken
+                fcmtoken = fcmToken,
+                subId = subId,
+                clickId =clickId
             )
 
             viewModelScope.launch {

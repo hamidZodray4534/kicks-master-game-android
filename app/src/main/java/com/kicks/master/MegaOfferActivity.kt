@@ -187,7 +187,8 @@ class MegaOfferActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         applyImmersiveMode()
-
+        val clickId = Constant.getString(this, Constant.CLICK_ID)
+        val subId = Constant.getString(this, Constant.SUB_ID)
         // Existing business logic: verify app install after returning from store
         if (Constant.getString(this, Constant.MEGA_OFFER_ACTIVE) == "1") {
           DialogUtils.showLoading(this)
@@ -208,7 +209,7 @@ class MegaOfferActivity : AppCompatActivity() {
 
                 if (finalOfferId > 0) {
                     Log.d(TAG, "► Install check passed. Calling creditMegaOffer for ID: $finalOfferId, Type: $offerType")
-                    viewModel.creditMegaOffer(finalOfferId.toString(), offerType)
+                    viewModel.creditMegaOffer(finalOfferId.toString(), offerType,clickId,subId)
                 } else {
                     Log.e(TAG, "► Install check passed BUT offerId is unknown. Falling back to local reward logic.")
                     val gemReward = AppManager.getInstance(this).getMegaOfferSettings()?.win_gem_reward ?: 1

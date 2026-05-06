@@ -19,18 +19,17 @@ import com.kicks.master.helper.apicall.RetrofitClient
 import com.kicks.master.helper.model.AdSetting
 import com.kicks.master.helper.model.AdxAccount
 import com.kicks.master.main.MainViewModel
+import com.kicks.master.utills.PubGloryTracker
+import com.kicks.master.utills.ReferrerManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
 
-/**
- * SplashActivity — the single place where all remote data is fetched on app start.
- *
- * Flow:
- *  1. Show splash + animate progress bar
- *  2. If NOT logged in → go to LoginActivity
- *  3. If logged in → call HOME API, save ALL data into AppManager + prefs, THEN go to MainActivity
- *
- * MainActivity.onCreate() only reads from already-populated prefs/AppManager — no race condition.
- */
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
@@ -75,18 +74,13 @@ class SplashActivity : AppCompatActivity() {
 
         // Decide navigation
         if (!appManager.getIsLogin()) {
-            finishWithProgress { goTo(LoginActivity::class.java) }
+            navigateToLogin()
         } else {
             fetchAllDataThenNavigate()
         }
        // finishWithProgress { goTo(LoginActivity::class.java) }
     }
 
-    /**
-     * Calls HOME API → saves ALL data (gems, coins, mega offer settings, ad configs)
-     * into AppManager and MainViewModel prefs → then navigates to MainActivity.
-     * On failure, navigates with whatever is already cached so the app is not stuck.
-     */
     private fun fetchAllDataThenNavigate() {
         lifecycleScope.launch {
             Log.d(TAG, "SplashActivity: fetching home data...")
@@ -154,7 +148,6 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    /** Completes the progress bar to 100% then runs [action]. */
     private fun finishWithProgress(action: () -> Unit) {
         handler.removeCallbacks(loadingRunnable)
         // Animate to 100% quickly
@@ -203,4 +196,44 @@ class SplashActivity : AppCompatActivity() {
         private const val TAG = "SplashActivity"
         const val KEY_HOME_LAST_FETCH = "home_data_fetch_time"
     }
+
+    private fun navigateToLogin() {
+        ReferrerManager(this).fetchReferralCode { result ->
+            Log.d("Attribution", "Play Store clickId: ${result.clickId}  clickId: ${result.subId}")
+
+            // PubGlory tracking
+            if (!result.clickId.isNullOrBlank() && !result.subId.isNullOrBlank()) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    PubGloryTracker(this@SplashActivity).trackInstall(result.clickId, result.subId)
+                }
+            }
+            else
+            {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    PubGloryTracker(this@SplashActivity)
+                        .trackInstall(result.clickId ?: "test-click-id", result.subId ?: "test-sub-id")
+                }
+            }
+            finishWithProgress { goTo(LoginActivity::class.java) }
+        }
+    }
+
+
+   /* private fun goToLogin(referCode: String?, playStoreCode: String?) {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("refer_code", referCode)
+            putExtra("play_store_refer_code", playStoreCode)
+        }
+        startActivity(intent)
+        AnimationUtil.applyFadeTransition(this)
+        finish()
+    }
+    interface ReferralApi {
+        @POST("referral/track-install")
+        suspend fun trackInstall(@Body body: InstallRequest): Response<ResponseBody>
+    }*/
+
+
+
 }

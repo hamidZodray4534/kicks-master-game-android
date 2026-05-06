@@ -49,11 +49,14 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onGoogleSignInCancelled()
                 return@registerForActivityResult
             }
+           val subId= Constant.getString(this, Constant.SUB_ID)
+
+            val clickId = Constant.getString(this,Constant.CLICK_ID)
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                viewModel.onGoogleAccountReceived(account)
+                viewModel.onGoogleAccountReceived(account,clickId,subId)
             } catch (e: ApiException) {
                 Log.w(TAG, "GoogleSignIn ApiException statusCode=${e.statusCode}", e)
                 viewModel.onGoogleSignInFailed(e.statusCode)
@@ -148,19 +151,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Google sign-in actions
-    // ═════════════════════════════════════════════════════════════════════════
-
     private fun launchGoogleSignIn() {
         setSignInLoading(true)
         val signInIntent = googleSignInClient.signInIntent
         googleSignInLauncher.launch(signInIntent)
     }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // User persistence & navigation
-    // ═════════════════════════════════════════════════════════════════════════
 
 
     private fun persistUserAndNavigate(user: User) {
@@ -178,9 +173,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // UI Helpers
-    // ═════════════════════════════════════════════════════════════════════════
 
     /** Dim the sign-in button while the auth request is in-flight. */
     private fun setSignInLoading(loading: Boolean) {

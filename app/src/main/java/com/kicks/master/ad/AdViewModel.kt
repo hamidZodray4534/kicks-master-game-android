@@ -12,10 +12,7 @@ import com.kicks.master.model.CoinCreditResponse
 import com.kicks.master.model.TrackAdsRequest
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for Ad-related operations.
- * Handles AdX updates and Digital Turbine ad tracking with crash-safe execution.
- */
+
 class AdViewModel(
     private val repository: AdRepository = AdRepository()
 ) : ViewModel() {
@@ -29,10 +26,7 @@ class AdViewModel(
     private val _megaOfferResult = MutableLiveData<Resource<CoinCreditResponse>?>()
     val megaOfferResult: LiveData<Resource<CoinCreditResponse>?> get() = _megaOfferResult
 
-    /**
-     * Updates AdX item status.
-     * @param adxItemId Unique identifier for the AdX item.
-     */
+
     fun updateAdx(adxItemId: String) {
         _adxUpdateResult.value = Resource.Loading
         viewModelScope.launch {
@@ -46,10 +40,6 @@ class AdViewModel(
         }
     }
 
-    /**
-     * Tracks Digital Turbine ad impression/click.
-     * @param dtItemId Unique identifier for the DT ad item.
-     */
     fun trackDtAds(dtItemId: String) {
         _trackAdsResult.value = Resource.Loading
         viewModelScope.launch {
@@ -63,15 +53,12 @@ class AdViewModel(
         }
     }
 
-    /**
-     * Credits rewards from a Mega Offer completion.
-     * @param offerId The ID of the offer being claimed.
-     */
-    fun creditMegaOffer(offerId: String) {
+
+    fun creditMegaOffer(offerId: String,clickId: String,subId: String) {
         _megaOfferResult.value = Resource.Loading
         viewModelScope.launch {
             try {
-                val response = repository.creditMegaOffer(offerId)
+                val response = repository.creditMegaOffer(offerId,clickId,subId)
                 _megaOfferResult.postValue(response)
             } catch (e: Exception) {
                 _megaOfferResult.postValue(Resource.Error(e.localizedMessage ?: "Unexpected error"))
@@ -79,10 +66,6 @@ class AdViewModel(
         }
     }
 
-    /**
-     * Reset the results state when they are consumed to avoid re-triggering on rotation
-     * if using LiveData in an Activity/Fragment (optional, depending on UI implementation).
-     */
     fun resetResults() {
         _adxUpdateResult.value = null
         _trackAdsResult.value = null
