@@ -22,6 +22,7 @@ import com.kicks.master.main.MainViewModel
 import com.kicks.master.utills.AppDialog
 import com.kicks.master.utills.PubGloryTracker
 import com.kicks.master.utills.ReferrerManager
+import com.kicks.master.utills.StringUtil.getVersionCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -30,6 +31,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import kotlin.compareTo
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -93,15 +95,20 @@ class SplashActivity : AppCompatActivity() {
                     // 2. Check for Update
                     val appUpdate = splashData.app_update
                     if (appUpdate != null) {
-                        hasUpdate = true
-                        handler.post {
-                            AppDialog.update_dialog(
-                                this@SplashActivity,
-                                "on", // mandatory update
-                                appUpdate.title,
-                                appUpdate.subtitle
-                            )
+                        val serverVersion = appUpdate.version?.toIntOrNull() ?: 0
+                        val currentVersion = getVersionCode(this@SplashActivity)
+                        if (currentVersion < serverVersion){
+                            hasUpdate = true
+                            handler.post {
+                                AppDialog.update_dialog(
+                                    this@SplashActivity,
+                                    "on",
+                                    appUpdate.title,
+                                    appUpdate.subtitle
+                                )
+                            }
                         }
+
                     }
                 }
             } catch (e: Exception) {

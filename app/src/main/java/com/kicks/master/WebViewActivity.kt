@@ -45,8 +45,15 @@ class WebViewActivity : AppCompatActivity() {
         binding.webView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
+            databaseEnabled = true
+            allowFileAccess = true
             loadWithOverviewMode = true
             useWideViewPort = true
+            // Set a standard browser user agent to avoid being blocked/treated differently
+            userAgentString = "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36"
+            
+            // Allow loading content from mixed sources (HTTP/HTTPS) if needed
+            mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 
         binding.webView.webViewClient = object : WebViewClient() {
@@ -76,7 +83,10 @@ class WebViewActivity : AppCompatActivity() {
         }
 
         if (url.isNotEmpty()) {
-            binding.webView.loadUrl(url)
+            // Remove X-Requested-With header which often causes servers to return 404/403 for security reasons
+            val headers = HashMap<String, String>()
+            headers["X-Requested-With"] = "" 
+            binding.webView.loadUrl(url.trim(), headers)
         }
     }
     private fun handleBackAction() {
