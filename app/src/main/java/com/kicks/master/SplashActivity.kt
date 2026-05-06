@@ -45,7 +45,7 @@ class SplashActivity : AppCompatActivity() {
     // Cosmetic progress bar runnable — keeps running while API loads
     private val loadingRunnable = object : Runnable {
         override fun run() {
-            if (loadingProgress < 90) {          // cap at 90 until API responds
+            if (loadingProgress < 90) {
                 loadingProgress += (2..4).random()
                 if (loadingProgress > 90) loadingProgress = 90
                 binding.progressBarLoading.progress = loadingProgress
@@ -74,7 +74,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Start cosmetic progress animation
         handler.postDelayed(loadingRunnable, 300L)
-
+        binding.tvVersion.text="Version ${BuildConfig.VERSION_NAME}"
         startAppFlow()
     }
 
