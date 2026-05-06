@@ -1,5 +1,6 @@
 package com.kicks.master
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,28 @@ class SettingActivity : AppCompatActivity() {
         }
 
         binding.tvVersion.text="Version ${BuildConfig.VERSION_NAME}"
+
+        // Privacy Policy click
+        binding.cardPrivacy.setOnClickListener {
+            val privacyUrl = Constant.getString(this, Constant.PRIVACY_POLICY)
+            if (privacyUrl.isNotEmpty()) {
+                val intent = Intent(this, WebViewActivity::class.java).apply {
+                    putExtra("url", privacyUrl)
+                    putExtra("title", "Privacy Policy")
+                }
+                startActivity(intent)
+            }
+        }
+
+        // Rate Us click
+        binding.cardRateUs.setOnClickListener {
+            val appPackageName = packageName
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("market://details?id=$appPackageName")))
+            } catch (e: android.content.ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            }
+        }
 
         // Handle modern gesture back press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

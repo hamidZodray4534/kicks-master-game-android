@@ -25,7 +25,11 @@
             android:exported="false" />
         <activity
             android:name=".SettingActivity"
-            android:exported="false" /> <!-- LAUNCHER: Splash Screen -->
+            android:exported="false" />
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false" />
+        <!-- LAUNCHER: Splash Screen -->
         <activity
             android:name=".SplashActivity"
 

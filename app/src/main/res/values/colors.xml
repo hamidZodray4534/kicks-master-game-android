@@ -24,7 +24,7 @@
     <color name="rr_bg_dark">#1C1108</color>
     <color name="red">#B51621</color>
     <color name="main_background_color">#231A0F</color>
-    <color name="status_bar_color">#5CDD48</color>
+    <color name="status_bar_color">#0D006A34</color>
     <color name="bottom_bar_color">#000000</color>
     <color name="rr_bg_card">#2A1508</color>
     <color name="rr_orange">#006A34</color>
@@ -36,4 +36,6 @@
     <color name="rr_gem_blue">#4488FF</color>
     <color name="rr_progress_text">#C97B1A</color>
     <color name="version_text_color">#B6CAE4</color>
+    <color name="update_button_color">#013622</color>
+
 </resources>

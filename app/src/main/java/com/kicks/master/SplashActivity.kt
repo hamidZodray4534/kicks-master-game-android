@@ -19,6 +19,7 @@ import com.kicks.master.helper.apicall.RetrofitClient
 import com.kicks.master.helper.model.AdSetting
 import com.kicks.master.helper.model.AdxAccount
 import com.kicks.master.main.MainViewModel
+import com.kicks.master.utills.AppDialog
 import com.kicks.master.utills.PubGloryTracker
 import com.kicks.master.utills.ReferrerManager
 import kotlinx.coroutines.Dispatchers
@@ -72,17 +73,55 @@ class SplashActivity : AppCompatActivity() {
         // Start cosmetic progress animation
         handler.postDelayed(loadingRunnable, 300L)
 
-        // Decide navigation
-        if (!appManager.getIsLogin()) {
-            navigateToLogin()
-        } else {
-            fetchAllDataThenNavigate()
+        startAppFlow()
+    }
+
+    private fun startAppFlow() {
+        lifecycleScope.launch {
+            Log.d(TAG, "SplashActivity: fetching splash data...")
+            var hasUpdate = false
+            try {
+                val splashResponse = RetrofitClient.apiService.getSplashData()
+                if (splashResponse.isSuccessful && splashResponse.body()?.success == true) {
+                    val splashData = splashResponse.body()!!.data
+
+                    // 1. Save Privacy Policy
+                    splashData.url?.privacy_policy?.let {
+                        Constant.setString(this@SplashActivity, Constant.PRIVACY_POLICY, it)
+                    }
+
+                    // 2. Check for Update
+                    val appUpdate = splashData.app_update
+                    if (appUpdate != null) {
+                        hasUpdate = true
+                        handler.post {
+                            AppDialog.update_dialog(
+                                this@SplashActivity,
+                                "on", // mandatory update
+                                appUpdate.title,
+                                appUpdate.subtitle
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Splash API exception: ${e.message}")
+            }
+
+            if (hasUpdate) return@launch
+
+            // Decide navigation
+            if (!appManager.getIsLogin()) {
+                navigateToLogin()
+            } else {
+                fetchAllDataThenNavigate()
+            }
         }
-       // finishWithProgress { goTo(LoginActivity::class.java) }
     }
 
     private fun fetchAllDataThenNavigate() {
         lifecycleScope.launch {
+            // Fetch Home Data
             Log.d(TAG, "SplashActivity: fetching home data...")
             try {
                 val homeResponse = RetrofitClient.apiService.getHomeData()
@@ -90,18 +129,17 @@ class SplashActivity : AppCompatActivity() {
                     val homeData = homeResponse.body()!!.data
                     val user = homeData.userDetails
 
-                    Log.d(TAG, "Home API OK → gems=${user.gems}, coins=${user.coins}, status=${homeData.megaOfferSettings.mega_offer_status}")
+                    Log.d(TAG, "Home API OK → gems=${user.gems}, coins=${user.coins}")
 
-                    // ── Save user balance to MainViewModel prefs (same file MainActivity reads) ──
+                    // Save user balance
                     val prefs = getSharedPreferences(MainViewModel.PREFS_NAME, MODE_PRIVATE)
                     prefs.edit()
                         .putInt(MainViewModel.KEY_USER_GEMS, user.gems)
                         .putInt(MainViewModel.KEY_USER_COINS, user.coins)
                         .apply()
 
-                    // ── Save everything to AppManager ──────────────────────────────────────────
+                    // Save Ad Settings
                     val adSettings = homeData.adSettings
-
                     appManager.saveAdx(
                         AdxAccount(
                             app_id    = adSettings.adx?.app_id ?: "",
@@ -132,18 +170,14 @@ class SplashActivity : AppCompatActivity() {
                     appManager.saveAdNetworkConfig(homeData.adNetworkConfiguration)
                     appManager.saveMegaOfferSettings(homeData.megaOfferSettings)
 
-                    // Mark fresh — MainActivity won't need to re-fetch immediately
                     prefs.edit().putLong(KEY_HOME_LAST_FETCH, System.currentTimeMillis()).apply()
-
                     Log.d(TAG, "All data saved. Navigating to MainActivity.")
-                } else {
-                    Log.w(TAG, "Home API returned unsuccessful — using cached data. code=${homeResponse.code()}")
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Home API exception: ${e.message} — using cached data")
+                Log.e(TAG, "Home API exception: ${e.message}")
             }
 
-            // Always navigate regardless of API success/failure
+            // Navigate to Main (since we are in fetchAllDataThenNavigate, user is already logged in)
             finishWithProgress { goTo(MainActivity::class.java) }
         }
     }
