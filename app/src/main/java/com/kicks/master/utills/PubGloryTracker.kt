@@ -16,7 +16,7 @@ class PubGloryTracker(private val context: Context) {
     data class PubGloryRequest(
         val click_id: String,
         val sub_id: String,
-        val app_id: String = "49253",
+        val app_id: String = "58507",
         val type: String,
         val tx_id: String
     )

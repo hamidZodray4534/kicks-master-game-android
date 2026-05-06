@@ -47,6 +47,9 @@ class GameOverActivity : AppCompatActivity() {
     private var bestScore: Int = 0
     private var gemReward: Int = 0
 
+    private var isAdLoading = false
+    private var originalButtonText: String = "TAP TO CLAIM "
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -135,9 +138,30 @@ class GameOverActivity : AppCompatActivity() {
 
     private fun handleClaimReward() {
 
-        if (!claimed) {
-            showRewardedAd()
+        if (claimed) return
+
+
+        //If already loading → show message
+        if (isAdLoading) {
+            Toast.makeText(
+                this,
+                "Getting your reward ready… please wait",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
         }
+
+        // Start loading
+        isAdLoading = true
+
+        // Change UI
+        binding.tvButtonClaim.text = "Loading..."
+
+        showRewardedAd()
+
+      /*  if (!claimed) {
+            showRewardedAd()
+        }*/
     }
 
     private fun showRewardedAd() {
@@ -158,8 +182,9 @@ class GameOverActivity : AppCompatActivity() {
                     onRewardSuccess(currentGems, rewardAmount)
                 },
                 onFailedCallback = {
-                    Log.e(TAG, "All ad networks failed inside ads_provider")
-                    Toast.makeText(this, "Ads not ready.", Toast.LENGTH_SHORT).show()
+                    isAdLoading = false
+                    binding.tvButtonClaim.text = originalButtonText
+                    Toast.makeText(this, "Ads not ready. Please try again.", Toast.LENGTH_SHORT).show()
                 })
         } else {
             Log.w(TAG, "No Ad config found for game_over section")
@@ -170,6 +195,8 @@ class GameOverActivity : AppCompatActivity() {
     private fun onRewardSuccess(currentGems: Int, rewardAmount: Int) {
         if (!claimed) {
             claimed = true
+            isAdLoading = false
+            binding.tvButtonClaim.text = originalButtonText
             playPulseAnimation(binding.btnTapToClaim)
             val finalReward = if (rewardAmount > 0) rewardAmount else gemReward
            // Toast.makeText(this, "🎉 Reward Claimed! +$finalReward Gem", Toast.LENGTH_SHORT).show()

@@ -79,50 +79,48 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startAppFlow() {
+
         lifecycleScope.launch {
-            Log.d(TAG, "SplashActivity: fetching splash data...")
+            if (!appManager.getIsLogin()) {
+                navigateToLogin()
+                return@launch
+            }
             var hasUpdate = false
+
             try {
                 val splashResponse = RetrofitClient.apiService.getSplashData()
+
                 if (splashResponse.isSuccessful && splashResponse.body()?.success == true) {
                     val splashData = splashResponse.body()!!.data
 
-                    // 1. Save Privacy Policy
                     splashData.url?.privacy_policy?.let {
                         Constant.setString(this@SplashActivity, Constant.PRIVACY_POLICY, it)
                     }
-
-                    // 2. Check for Update
-                    val appUpdate = splashData.app_update
-                    if (appUpdate != null) {
-                        val serverVersion = appUpdate.version?.toIntOrNull() ?: 0
+                    splashData.app_update?.let { update ->
+                        val serverVersion = update.version?.toIntOrNull() ?: 0
                         val currentVersion = getVersionCode(this@SplashActivity)
-                        if (currentVersion < serverVersion){
+
+                        if (currentVersion < serverVersion) {
                             hasUpdate = true
                             handler.post {
                                 AppDialog.update_dialog(
                                     this@SplashActivity,
                                     "on",
-                                    appUpdate.title,
-                                    appUpdate.subtitle
+                                    update.title,
+                                    update.subtitle
                                 )
                             }
                         }
-
                     }
                 }
+
             } catch (e: Exception) {
-                Log.e(TAG, "Splash API exception: ${e.message}")
+                Log.e(TAG, "Splash API error: ${e.message}")
             }
 
             if (hasUpdate) return@launch
 
-            // Decide navigation
-            if (!appManager.getIsLogin()) {
-                navigateToLogin()
-            } else {
-                fetchAllDataThenNavigate()
-            }
+            fetchAllDataThenNavigate()
         }
     }
 
