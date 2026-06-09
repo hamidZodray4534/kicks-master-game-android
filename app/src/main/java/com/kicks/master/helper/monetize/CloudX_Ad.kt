@@ -41,10 +41,6 @@ object CloudX_Ad {
 
     private var rewardedAd: CloudXRewardedAd? = null
 
-    // ─────────────────────────────────────────────────────────────
-    // Initialization
-    // ─────────────────────────────────────────────────────────────
-
     fun initialize(context: Context, onInitialized: (() -> Unit)? = null) {
         if (isInitialized) {
             onInitialized?.invoke()
@@ -71,7 +67,8 @@ object CloudX_Ad {
 
         CloudX.initialize(
             context.applicationContext,
-            CloudXInitializationConfiguration.builder(appKey).build(),
+            CloudXInitializationConfiguration.builder(appKey)
+                .build(),
             object : CloudXInitializationListener {
                 override fun onInitialized(configuration: CloudXSdkConfiguration) {
                     isInitialized = true
@@ -87,11 +84,9 @@ object CloudX_Ad {
                 }
             }
         )
+
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Show Rewarded Ad
-    // ─────────────────────────────────────────────────────────────
 
     fun showRewardedAd(
         activity: Activity,
@@ -132,9 +127,6 @@ object CloudX_Ad {
         ad.show(activity)
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Request / Preload Rewarded Ad
-    // ─────────────────────────────────────────────────────────────
 
     fun requestRewarded(context: Context) {
         if (!isInitialized) {
@@ -171,9 +163,6 @@ object CloudX_Ad {
         rewardedAd = ad
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Rewarded Ad Listener
-    // ─────────────────────────────────────────────────────────────
 
     private fun buildRewardedListener(): CloudXRewardedListener {
         return object : CloudXRewardedListener {
@@ -219,10 +208,6 @@ object CloudX_Ad {
             }
         }
     }
-
-    // ─────────────────────────────────────────────────────────────
-    // Utilities
-    // ─────────────────────────────────────────────────────────────
 
     fun clearAll() {
         Log.d(TAG, "clearAll: resetting state")

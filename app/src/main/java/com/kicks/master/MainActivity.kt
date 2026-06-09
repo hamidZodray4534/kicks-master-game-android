@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -419,8 +420,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
         // Change Text for Success
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Unlock Successful!"
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetMessage).text =
@@ -451,7 +452,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         // Change Text for ACTIVE state
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Mega Offer Active!"
