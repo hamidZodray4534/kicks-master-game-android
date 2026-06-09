@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     // ── ViewBinding ────────────────────────────────────────────────────────────
     private lateinit var binding: ActivityMainBinding
 
-    // ── Game Over launcher ─────────────────────────────────────────────────────
     private lateinit var gameOverLauncher: ActivityResultLauncher<Intent>
     private lateinit var megaOfferLauncher: ActivityResultLauncher<Intent>
 
@@ -381,7 +380,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         val displayProgress = currentOfferProgress
         val tvTargetMessage = dialog.findViewById<android.widget.TextView>(R.id.tvTargetMessage)
@@ -397,6 +397,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
         tvTargetMessage.text = spannableString
+
+        // Explicitly set text for this specific dialog variant
+        dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Target Reached!"
+        val btnOpen = dialog.findViewById<android.view.ViewGroup>(R.id.btnOpenOfferDialog)
+        val btnClose = dialog.findViewById<android.view.ViewGroup>(R.id.btnClaimLaterDialog)
+        (btnOpen?.getChildAt(0) as? android.widget.TextView)?.text = "Open Mega Offer Box"
+        (btnClose?.getChildAt(0) as? android.widget.TextView)?.text = "Claim Later"
 
         dialog.findViewById<android.view.View>(R.id.ivCloseTargetDialog).setOnClickListener {
             dialog.dismiss()
