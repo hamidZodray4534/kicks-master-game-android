@@ -172,6 +172,19 @@ class SplashActivity : AppCompatActivity() {
                         )
                     )
 
+                    // Save CloudX ad settings
+                    appManager.saveCloudXAdSetting(
+                        AdSetting(
+                            appId     = adSettings.cloudX?.app_id ?: "",
+                            placement = adSettings.cloudX?.reward_unit_id ?: "",
+                            enabled   = true,
+                            id        = adSettings.cloudX?.id ?: 0
+                        )
+                    )
+
+                    // Initialize CloudX SDK now that app_id is available
+                    com.kicks.master.helper.monetize.CloudX_Ad.initialize(this@SplashActivity)
+
                     appManager.saveAdNetworkConfig(homeData.adNetworkConfiguration)
                     appManager.saveMegaOfferSettings(homeData.megaOfferSettings)
 

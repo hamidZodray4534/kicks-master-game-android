@@ -24,6 +24,7 @@ object SdkInitManager {
     private val fairBidInitialized = AtomicBoolean(false)
     private val unityInitialized = AtomicBoolean(false)
     private val vungleInitialized = AtomicBoolean(false)
+    private val cloudXInitialized = AtomicBoolean(false)
     private val oneSignalScheduled = AtomicBoolean(false)
 
 
@@ -62,12 +63,22 @@ object SdkInitManager {
         VungleRewardedManager.init(context)
     }
 
+    fun ensureCloudX(context: Context, onReady: (() -> Unit)? = null) {
+        if (!cloudXInitialized.compareAndSet(false, true)) {
+            onReady?.invoke()
+            return
+        }
+        Log.d(TAG, "ensureCloudX: initializing on first CloudX ad request")
+        CloudX_Ad.initialize(context, onReady)
+    }
+
     fun resetForTest() {
         admobInitialized.set(false)
         fbInitialized.set(false)
         fairBidInitialized.set(false)
         unityInitialized.set(false)
         vungleInitialized.set(false)
+        cloudXInitialized.set(false)
         oneSignalScheduled.set(false)
     }
 

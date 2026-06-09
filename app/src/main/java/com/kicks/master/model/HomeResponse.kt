@@ -57,7 +57,10 @@ data class AdSettings(
     val pubMax: AdNetwork,
 
     val yandex: AdNetwork,
-    val vungle: AdNetwork
+    val vungle: AdNetwork,
+
+    @SerializedName("cloud-x")
+    val cloudX: AdNetwork? = null
 )
 
 data class AdNetwork(

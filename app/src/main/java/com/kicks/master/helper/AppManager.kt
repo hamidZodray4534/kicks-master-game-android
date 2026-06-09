@@ -100,6 +100,9 @@ class AppManager private constructor(private val context: Context) {
     private var cachedVungleAdSetting: AdSetting? = null
 
     @Volatile
+    private var cachedCloudXAdSetting: AdSetting? = null
+
+    @Volatile
     private var cachedOffer: com.kicks.master.model.Offer? = null
 
 
@@ -240,6 +243,20 @@ class AppManager private constructor(private val context: Context) {
         return cachedVungleAdSetting
     }
 
+    fun saveCloudXAdSetting(setting: AdSetting?) {
+        cachedCloudXAdSetting = setting
+        prefs.edit().putString(Const.CLOUDX_AD_SETTING, Gson().toJson(setting)).apply()
+    }
+
+    fun getCloudXAdSetting(): AdSetting? {
+        if (cachedCloudXAdSetting != null) return cachedCloudXAdSetting
+        val json = prefs.getString(Const.CLOUDX_AD_SETTING, null)
+        cachedCloudXAdSetting = json?.let {
+            try { Gson().fromJson(it, AdSetting::class.java) } catch (e: Exception) { null }
+        }
+        return cachedCloudXAdSetting
+    }
+
     fun saveDigitalTurbineAdSetting(setting: AdSetting?) {
         cachedDigitalTurbineAdSetting = setting
         prefs.edit().putString(Const.DIGITAL_TURBINE_AD_SETTING, Gson().toJson(setting)).apply()
@@ -268,6 +285,7 @@ class AppManager private constructor(private val context: Context) {
         cachedAdConfig = null
         cachedDigitalTurbineAdSetting = null
         cachedVungleAdSetting = null
+        cachedCloudXAdSetting = null
         try {
             prefs.edit().clear().apply()
         } catch (e: Exception) {

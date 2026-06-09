@@ -14,6 +14,7 @@ object Const {
     const val ADX_ACCOUNT = "adx_account"
     const val DIGITAL_TURBINE_AD_SETTING = "digital_turbine_ad_setting"
     const val VUNGLE_AD_SETTING = "vungle_ad_setting"
+    const val CLOUDX_AD_SETTING = "cloudx_ad_setting"
 
     const val REDEEM_BANNER_S_TIME: Long = 4 * 1000L
     const val FOLLOW_TIMER = "15"

@@ -270,6 +270,64 @@ object AppDialog {
         }
     }
 
+    fun lowScoreDialog(activity: Activity, onTryAgainClick: () -> Unit) {
+        val dialog = Dialog(activity).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.rf_adx_dialog)
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+        }
+
+        dialog.window?.apply {
+            setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            setGravity(Gravity.BOTTOM)
+            attributes = attributes?.apply {
+                dimAmount = 0.6f
+                flags = flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
+            }
+            setWindowAnimations(R.style.BottomDialogAnimation)
+        }
+
+        val rootView = dialog.findViewById<ConstraintLayout>(R.id.dialog_root)
+        val tvTitle = dialog.findViewById<TextView>(R.id.textViw1)
+        val descLayout = dialog.findViewById<LinearLayout>(R.id.textView2)
+        val tvDesc = descLayout?.getChildAt(0) as? TextView
+        val yesBtn = dialog.findViewById<LinearLayout>(R.id.yesBtn)
+        val btnText = yesBtn?.getChildAt(0) as? TextView
+
+        tvTitle?.text = "Score Too Low!"
+        tvDesc?.text = "You need at least 5 points to claim a reward. Keep playing and score higher!"
+        btnText?.text = "Try Again"
+
+        rootView?.apply {
+            alpha = 0f
+            translationY = 50f
+            animate().alpha(1f).translationY(0f).setDuration(350)
+                .setInterpolator(DecelerateInterpolator()).start()
+        }
+
+        val dismissWithAnimation = {
+            rootView?.animate()?.alpha(0f)?.translationY(50f)?.setDuration(250)
+                ?.withEndAction { dialog.dismiss() }?.start() ?: dialog.dismiss()
+        }
+
+        yesBtn?.setOnClickListener {
+            dismissWithAnimation()
+            onTryAgainClick()
+        }
+
+        try {
+            if (!activity.isFinishing && !dialog.isShowing) {
+                dialog.show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     fun alreadyUnlockedDialog(activity: Activity, onClaimClick: () -> Unit) {
         val dialog = Dialog(activity).apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -37,5 +37,6 @@
     <color name="rr_progress_text">#C97B1A</color>
     <color name="version_text_color">#B6CAE4</color>
     <color name="update_button_color">#013622</color>
+    <color name="bottom_sheet_bg">#013622</color>
 
 </resources>

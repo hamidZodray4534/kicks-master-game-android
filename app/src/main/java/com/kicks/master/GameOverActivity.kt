@@ -18,6 +18,7 @@ import com.kicks.master.databinding.ActivityGameOverBinding
 import com.kicks.master.helper.AppManager
 import com.kicks.master.helper.monetize.ads_provider
 import com.kicks.master.helper.monetize.ads_provider.preloadAllRewarded
+import com.kicks.master.utills.AppDialog
 
 class GameOverActivity : AppCompatActivity() {
 
@@ -35,7 +36,7 @@ class GameOverActivity : AppCompatActivity() {
         const val RESULT_HOME = Activity.RESULT_FIRST_USER + 1      // = 2
 
         // Configuration
-        private const val MIN_SCORE_FOR_CLAIM = 1
+        private const val MIN_SCORE_FOR_CLAIM = 5
         private const val POINTS_PER_GEM = 100
     }
 
@@ -94,11 +95,14 @@ class GameOverActivity : AppCompatActivity() {
         binding.frameLayoutClaimGem.visibility = View.VISIBLE
         binding.frameLayoutRetry.visibility = View.VISIBLE
 
-        // Only show the "TAP TO CLAIM" button if score meets the minimum threshold
-        if (finalScore >= MIN_SCORE_FOR_CLAIM) {
-            binding.btnTapToClaim.visibility = View.VISIBLE
-        } else {
+        // Automatically show the dialog if they land on this screen with a low score
+        if (finalScore < MIN_SCORE_FOR_CLAIM) {
             binding.btnTapToClaim.visibility = View.INVISIBLE
+            binding.root.postDelayed({
+              AppDialog.lowScoreDialog(this) { handleRetry() }
+            }, 300)
+        } else {
+            binding.btnTapToClaim.visibility = View.VISIBLE
         }
     }
 
@@ -140,6 +144,11 @@ class GameOverActivity : AppCompatActivity() {
 
         if (claimed) return
 
+        // Score check — must reach minimum threshold
+        if (finalScore < MIN_SCORE_FOR_CLAIM) {
+            AppDialog.lowScoreDialog(this) { handleRetry() }
+            return
+        }
 
         //If already loading → show message
         if (isAdLoading) {
@@ -158,10 +167,6 @@ class GameOverActivity : AppCompatActivity() {
         binding.tvButtonClaim.text = "Loading..."
 
         showRewardedAd()
-
-      /*  if (!claimed) {
-            showRewardedAd()
-        }*/
     }
 
     private fun showRewardedAd() {
