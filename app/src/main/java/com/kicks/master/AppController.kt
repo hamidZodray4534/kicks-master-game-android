@@ -149,54 +149,6 @@ class AppController : Application(), Application.ActivityLifecycleCallbacks {
         }
     }
 
-    /*private fun initSdkStaggered() {
-        appScope.launch {
-
-            // AdMob (delay so cold-start UI appears first)
-            delay(1_000)
-            if (!mobileAdsInitialized) {
-                mobileAdsInitialized = true
-                withContext(Dispatchers.Main) {
-                    try {
-                        MobileAds.initialize(this@AppController) {
-                            Log.d(TAG, "MobileAds initialized")
-                            // Pre-warm rewarded ad once SDK is ready
-                            AdxAdapter.loadAd(this@AppController)
-                        }
-                    } catch (e: Exception) {
-                        mobileAdsInitialized = false
-                        Log.e(TAG, "MobileAds init failed: ${e.message}")
-                    }
-                }
-            }
-
-            // Facebook Audience Network
-            delay(3_000)
-            withContext(Dispatchers.Main) {
-                try {
-                    AudienceNetworkAds.initialize(this@AppController)
-                } catch (e: Exception) {
-                    Log.e(TAG, "AudienceNetwork init failed: ${e.message}")
-                }
-            }
-
-            // Unity
-            delay(3_000)
-            try {
-                SdkInitManager.ensureUnity(this@AppController)
-            } catch (e: Exception) {
-                Log.e(TAG, "Unity init failed: ${e.message}")
-            }
-
-            // FairBid
-            delay(3_000)
-            try {
-                SdkInitManager.ensureFairBid(this@AppController)
-            } catch (e: Exception) {
-                Log.e(TAG, "FairBid init failed: ${e.message}")
-            }
-        }
-    }*/
 
     private fun registerNetworkListener() {
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

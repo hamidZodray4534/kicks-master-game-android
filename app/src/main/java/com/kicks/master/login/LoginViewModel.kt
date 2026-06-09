@@ -15,23 +15,17 @@ import com.kicks.master.helper.apicall.Resource
 import com.kicks.master.model.SignupRequest
 import kotlinx.coroutines.launch
 
-/**
- * MVVM ViewModel for the Login screen.
- */
+
 class LoginViewModel : ViewModel() {
 
     private val TAG = "LoginViewModel"
     private val authRepository: AuthRepository = AuthRepositoryImpl()
-
-    // ── State ──────────────────────────────────────────────────────────────────
 
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> get() = _loading
 
     private val _event = MutableLiveData<LoginEvent?>()
     val event: LiveData<LoginEvent?> get() = _event
-
-    // ── Public API ────────────────────────────────────────────────────────────
 
     fun onGoogleAccountReceived(account: GoogleSignInAccount,clickId: String,subId: String) {
         _loading.value = true

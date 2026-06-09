@@ -238,19 +238,25 @@ class SplashActivity : AppCompatActivity() {
 
     private fun navigateToLogin() {
         ReferrerManager(this).fetchReferralCode { result ->
-            Log.d("Attribution", "Play Store clickId: ${result.clickId}  clickId: ${result.subId}")
+            Log.d("Attribution", "Play Store clickId: ${result.clickId}  subId: ${result.subId}  offerData: ${result.offerData}")
 
-            // PubGlory tracking
+            // Only track when real PubGlory referrer data exists
             if (!result.clickId.isNullOrBlank() && !result.subId.isNullOrBlank()) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    PubGloryTracker(this@SplashActivity).trackInstall(result.clickId, result.subId)
+                    // Save offer_data only if it's a real Base64 value (not blank)
+                    PubGloryTracker(this@SplashActivity).trackInstall(
+                        result.clickId,
+                        result.subId,
+                        result.offerData ?: ""   // empty string is safe — no fake fallback
+                    )
                 }
-            }
-            else
-            {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    PubGloryTracker(this@SplashActivity)
-                        .trackInstall(result.clickId ?: "test-click-id", result.subId ?: "test-sub-id")
+            } else {
+                // No real referrer — just save offer_data if present, without fake click/sub IDs
+                result.offerData?.takeIf { it.isNotBlank() }?.let { offerData ->
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        Constant.setString(this@SplashActivity, Constant.OFFER_DATA, offerData)
+                        Log.d("Attribution", "Saved offerData without PubGlory tracking: $offerData")
+                    }
                 }
             }
             finishWithProgress { goTo(LoginActivity::class.java) }

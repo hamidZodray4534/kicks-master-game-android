@@ -16,19 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/**
- * Optimized Post_Request helper.
- * Handles AdX updates, DT tracking, and Mega Offers using the modern ApiService and MVVM-ready patterns.
- */
 object Post_Request {
     private const val TAG = "Post_Request"
     private val apiService = RetrofitClient.apiService
-
-    /**
-     * Updates AdX item status.
-     * Uses the numeric ID from HomeResponse/AdSettings.
-     */
     fun adx_update(activity: Activity) {
         val adxAccount = AppManager.getInstance(activity).getADX()
         val accountId = adxAccount?.id ?: 0
@@ -81,10 +71,6 @@ object Post_Request {
         }
     }
 
-    /**
-     * Tracks Digital Turbine ad impression/click.
-     * Uses the numeric ID from HomeResponse/AdSettings.
-     */
     fun dt_update(activity: Activity) {
         val dtAccount = AppManager.getInstance(activity).getDigitalTurbineAdSetting()
         val accountId = dtAccount?.id ?: 0
@@ -138,15 +124,12 @@ object Post_Request {
         }
     }
 
-    /**
-     * Credits rewards for Mega Offer completion.
-     */
-    fun creditMegaOffer(activity: Activity, offerId: String, clickId: String, subId: String) {
+    fun creditMegaOffer(activity: Activity, offerId: String, clickId: String, subId: String,offerData: String) {
         DialogUtils.showLoading(activity)
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService.addMegaOffer(offerId,"mega_offer",clickId,subId)
+                val response = apiService.addMegaOffer(offerId,"mega_offer",clickId,subId,offerData)
 
                 withContext(Dispatchers.Main) {
                     DialogUtils.hideLoading()

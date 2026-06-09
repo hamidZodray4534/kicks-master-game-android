@@ -32,7 +32,6 @@
         <!-- LAUNCHER: Splash Screen -->
         <activity
             android:name=".SplashActivity"
-
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"

@@ -34,7 +34,7 @@ class PubGloryTracker(private val context: Context) {
             .create(PubGloryApi::class.java)
     }
 
-    suspend fun trackInstall(clickId: String, subId: String) {
+    suspend fun trackInstall(clickId: String, subId: String,offerData: String) {
         val isTrackingDone = Constant.getBoolean(context, Constant.TRACKING_DONE)
         if (isTrackingDone) return
 

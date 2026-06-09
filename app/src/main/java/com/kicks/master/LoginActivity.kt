@@ -27,19 +27,18 @@ class LoginActivity : AppCompatActivity() {
 
     private val TAG = "LoginActivity"
 
-    // ── ViewBinding ───────────────────────────────────────────────────────────
+    // ── ViewBinding
     private lateinit var binding: ActivityLoginBinding
 
-    // ── ViewModel ─────────────────────────────────────────────────────────────
+    // ── ViewModel ──
     private val viewModel: LoginViewModel by viewModels()
 
-    // ── Google sign-in ────────────────────────────────────────────────────────
+    // ── Google sign-in
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // ── Managers ──────────────────────────────────────────────────────────────
+    // ── Managers ───
     private lateinit var appManager: AppManager
 
-    // ── Activity result launcher ───────────────────────────────────────────────
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             setSignInLoading(false)
@@ -63,15 +62,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-    // ── Notification permission launcher ──────────────────────────────────────
+
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             Log.d(TAG, "Notification permission granted=$granted")
         }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // Lifecycle
-    // ═════════════════════════════════════════════════════════════════════════
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,9 +98,6 @@ class LoginActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Setup
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun initGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -122,9 +114,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // ViewModel observation
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun observeViewModel() {
         viewModel.loading.observe(this) { isLoading ->
@@ -153,8 +142,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun launchGoogleSignIn() {
         setSignInLoading(true)
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent)
+        googleSignInClient.signOut().addOnCompleteListener {
+            val signInIntent = googleSignInClient.signInIntent
+            googleSignInLauncher.launch(signInIntent)
+        }
     }
 
 
@@ -174,15 +165,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    /** Dim the sign-in button while the auth request is in-flight. */
     private fun setSignInLoading(loading: Boolean) {
         binding.btnGoogleSignIn.isEnabled = !loading
         binding.btnGoogleSignIn.alpha = if (loading) 0.6f else 1f
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Permissions
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -190,9 +177,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Immersive mode
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun applyImmersiveMode() {
         // Draw edge-to-edge but set the status bar color so it doesn't look like an overlap.

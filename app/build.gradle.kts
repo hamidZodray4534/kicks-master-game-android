@@ -13,8 +13,8 @@ android {
         applicationId = "com.kicks.master"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "5.0.0"
+        versionCode = 9
+        versionName = "1.9.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }

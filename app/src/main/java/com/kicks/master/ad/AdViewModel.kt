@@ -54,11 +54,11 @@ class AdViewModel(
     }
 
 
-    fun creditMegaOffer(offerId: String,clickId: String,subId: String) {
+    fun creditMegaOffer(offerId: String, clickId: String, subId: String, offerData: String = "") {
         _megaOfferResult.value = Resource.Loading
         viewModelScope.launch {
             try {
-                val response = repository.creditMegaOffer(offerId,clickId,subId)
+                val response = repository.creditMegaOffer(offerId, clickId, subId, offerData)
                 _megaOfferResult.postValue(response)
             } catch (e: Exception) {
                 _megaOfferResult.postValue(Resource.Error(e.localizedMessage ?: "Unexpected error"))

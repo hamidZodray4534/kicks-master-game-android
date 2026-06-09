@@ -17,7 +17,7 @@ class AdRepository(
         return safeApiCall { apiService.trackDtAds(request) }
     }
 
-    suspend fun creditMegaOffer(offerId: String,clickId: String,subId: String): Resource<CoinCreditResponse> {
-        return safeApiCall { apiService.addMegaOffer(offerId,"mega_offer",clickId,subId) }
+    suspend fun creditMegaOffer(offerId: String, clickId: String, subId: String, offerData: String = ""): Resource<CoinCreditResponse> {
+        return safeApiCall { apiService.addMegaOffer(offerId, "mega_offer", clickId, subId, offerData) }
     }
 }

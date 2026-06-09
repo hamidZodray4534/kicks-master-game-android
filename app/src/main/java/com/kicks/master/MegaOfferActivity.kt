@@ -207,9 +207,10 @@ class MegaOfferActivity : AppCompatActivity() {
                // val finalOfferId =  settings?.id ?: 0
                 val offerType = settings?.slug ?: "mega-offer"
 
+                val offerData = Constant.getString(this, Constant.OFFER_DATA)
                 if (finalOfferId > 0) {
-                    Log.d(TAG, "► Install check passed. Calling creditMegaOffer for ID: $finalOfferId, Type: $offerType")
-                    viewModel.creditMegaOffer(finalOfferId.toString(), offerType,clickId,subId)
+                    Log.d(TAG, "► Install check passed. Calling creditMegaOffer for ID: $finalOfferId, Type: $offerType, offer_data=$offerData")
+                    viewModel.creditMegaOffer(this,finalOfferId.toString(), offerType, clickId, subId)
                 } else {
                     Log.e(TAG, "► Install check passed BUT offerId is unknown. Falling back to local reward logic.")
                     val gemReward = AppManager.getInstance(this).getMegaOfferSettings()?.win_gem_reward ?: 1

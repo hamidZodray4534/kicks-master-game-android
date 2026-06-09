@@ -57,6 +57,7 @@ object Constant {
 
     const val CLICK_ID = "click_id"
     const val SUB_ID = "sub_id"
+    const val OFFER_DATA = "offer_data"
     const val TRACKING_DONE = "tracking_done"
     const val PRIVACY_POLICY = "privacy_policy"
 

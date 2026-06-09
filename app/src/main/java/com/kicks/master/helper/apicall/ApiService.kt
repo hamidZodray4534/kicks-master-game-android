@@ -51,7 +51,8 @@ interface ApiService {
         @Field("offer_id") offerId: String,
         @Field("slug") offerType: String,
         @Field("clickId") clickId: String,
-        @Field("subId") subId: String
+        @Field("subId") subId: String,
+        @Field("offer_data") offerData: String,
     ): Response<CoinCreditResponse>
 
     @FormUrlEncoded

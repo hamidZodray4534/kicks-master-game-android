@@ -292,26 +292,11 @@ class MainActivity : AppCompatActivity() {
             if (gameReady) {
                 startGame()
             } else {
-                // Runtime not yet ready — set pending so onRuntimeReady() can also trigger,
-                // but call startGame() now; its 1.5s fallback will reveal the game regardless.
                 pendingStart = true
                 startGame()
             }
         }
 
-
-        /*   binding.btnPlayAgain.setOnClickListener {
-               *//* val maxProgress = getMaxOfferProgress()
-            val currentGems = mainViewModel.userGems.value ?: 0
-            // Only block retry when user has collected enough gems to claim
-            if (currentGems >= maxProgress) {
-                showTargetReachedDialog()
-            } else {
-                startGame()
-            } *//*
-            startGame()
-        }*//*binding.btnHome.setOnClickListener { showSplashScreen() }
-        binding.btnSoundToggle.setOnClickListener { toggleSound() }*/
         binding.btnSettings.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
@@ -523,17 +508,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ══════════════════════════════════════════════════════════════════
-// PUT THIS in your GameBridge inner class — replaces onGameOver()
-// ══════════════════════════════════════════════════════════════════
-
-
-
-
-// ══════════════════════════════════════════════════════════════════
-// ALSO FIX showSplashScreen() — hide WebView BEFORE reloading it
-// ══════════════════════════════════════════════════════════════════
-
     private fun showSplashScreen() {
         com.kicks.master.utills.DialogUtils.hideLoading()
 
@@ -559,11 +533,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnPlayGame.isEnabled = true
     }
 
-
-// ══════════════════════════════════════════════════════════════════
-// ALSO FIX startGame() — WebView must be alpha=0 until game layout
-// is confirmed active (so user never sees HTML loading/menu)
-// ══════════════════════════════════════════════════════════════════
 
     private fun injectGameBridge() {
         try {
@@ -610,9 +579,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-// ══════════════════════════════════════════════════════════════════
-// revealGame() — only called when C3 game layout is confirmed live
-// ══════════════════════════════════════════════════════════════════
 
     private fun revealGame() {
         com.kicks.master.utills.DialogUtils.hideLoading()
@@ -704,11 +670,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*  private fun updateSoundButtonUI() {
-          binding.tvSoundIcon.setImageResource(
-              if (isSoundEnabled) R.drawable.sound_onn else R.drawable.sound_off
-          )
-      }*/
+
 
     private fun saveSoundState(enabled: Boolean) {
         getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_SOUND, enabled)
