@@ -51,5 +51,6 @@ data class AppMaintenance(
 
 data class Url(
     val privacy_policy: String,
-    val term_condition: String
+    val term_condition: String,
+    val more_games_link: String?
 )

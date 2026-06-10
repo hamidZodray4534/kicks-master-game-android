@@ -96,6 +96,9 @@ class SplashActivity : AppCompatActivity() {
                     splashData.url?.privacy_policy?.let {
                         Constant.setString(this@SplashActivity, Constant.PRIVACY_POLICY, it)
                     }
+                    splashData.url?.more_games_link?.let {
+                        Constant.setString(this@SplashActivity, Constant.PLAY_STORE_GAMES_LINK, it)
+                    }
                     splashData.app_update?.let { update ->
                         val serverVersion = update.version?.toIntOrNull() ?: 0
                         val currentVersion = getVersionCode(this@SplashActivity)
