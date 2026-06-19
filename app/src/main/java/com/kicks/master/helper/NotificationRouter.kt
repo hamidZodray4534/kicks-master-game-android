@@ -24,9 +24,9 @@ object NotificationRouter {
 
         if (path.isNotEmpty()) {
             val uriString = if (entityId.isNotBlank()) {
-                "zodrewards://$path?item_id=$entityId"
+                "kicksmaster://$path?item_id=$entityId"
             } else {
-                "zodrewards://$path"
+                "kicksmaster://$path"
             }
             return Intent(context, MainActivity::class.java).apply {
                 this.data = android.net.Uri.parse(uriString)

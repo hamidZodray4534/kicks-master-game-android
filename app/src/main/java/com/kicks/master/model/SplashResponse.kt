@@ -12,7 +12,8 @@ data class SplashData(
     val adx_task_history: List<Any>,
     val app_update: AppUpdate?,
     val app_maintenance: AppMaintenance?,
-    val url: Url?
+    val url: Url?,
+    val onesignal_app_id: String?
 )
 
 data class AdxAccount(

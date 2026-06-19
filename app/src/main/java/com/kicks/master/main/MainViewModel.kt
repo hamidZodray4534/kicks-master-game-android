@@ -135,7 +135,8 @@ class MainViewModel(
 
         _homeDataLoading.value = true
         viewModelScope.launch {
-            val result = repository.getHomeData()
+            val offerData = com.kicks.master.Constant.getString(context, com.kicks.master.Constant.OFFER_DATA)
+            val result = repository.getHomeData(offerData)
             _homeDataLoading.postValue(false)
 
             if (result is Resource.Success) {

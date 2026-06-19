@@ -83,6 +83,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         appManager = AppManager.getInstance(this)
+        
+
 
         initGoogleSignIn()
         observeViewModel()
@@ -97,6 +99,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
     }
+
+
 
 
     private fun initGoogleSignIn() {

@@ -60,6 +60,7 @@ object Constant {
     const val OFFER_DATA = "offer_data"
     const val TRACKING_DONE = "tracking_done"
     const val PRIVACY_POLICY = "privacy_policy"
+    const val ONE_SIGNAL_ID = "one_signal_id"
     const val PLAY_STORE_GAMES_LINK = "playstore_games_link"
 
     // Boolean Keys

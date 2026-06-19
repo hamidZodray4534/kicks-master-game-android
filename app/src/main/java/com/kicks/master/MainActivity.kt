@@ -203,6 +203,10 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.loadGems(this)
         observeViewModel()
 
+        // Fetch home data (silently caches) to ensure we don't miss data 
+        // if user directly navigated from LoginActivity. (Has built-in 60s cache).
+        mainViewModel.fetchHomeData(this, forceRefresh = false)
+
         // ── Swipe-to-refresh: pull down on home screen to reload data ─────────
         binding.swipeRefreshLayout.setColorSchemeResources(
             R.color.rr_orange, R.color.white

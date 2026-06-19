@@ -123,12 +123,22 @@ class AppManager private constructor(private val context: Context) {
         return cachedUser
     }
 
+    // Plain-prefs backup for IS_LOGIN — guards against EncryptedSharedPrefs
+    // key-store failures that silently wipe the session on relaunch.
+    private val sessionBackupPrefs: android.content.SharedPreferences by lazy {
+        context.getSharedPreferences("km_session_backup", Context.MODE_PRIVATE)
+    }
+
     fun setIsLogin(isLogin: Boolean) {
         prefs.edit().putBoolean(Const.IS_LOGIN, isLogin).apply()
+        sessionBackupPrefs.edit().putBoolean(Const.IS_LOGIN, isLogin).apply()
     }
 
     fun getIsLogin(): Boolean {
-        return prefs.getBoolean(Const.IS_LOGIN, false)
+        val encryptedValue = try { prefs.getBoolean(Const.IS_LOGIN, false) } catch (e: Exception) { false }
+        if (encryptedValue) return true
+        // Fallback: check plain-prefs backup (survives EncryptedSharedPrefs corruption)
+        return sessionBackupPrefs.getBoolean(Const.IS_LOGIN, false)
     }
 
 
@@ -291,6 +301,8 @@ class AppManager private constructor(private val context: Context) {
         } catch (e: Exception) {
             deleteEncryptedPrefsFile()
         }
+        // Also clear session backup
+        sessionBackupPrefs.edit().remove(Const.IS_LOGIN).apply()
     }
 
 
@@ -304,6 +316,8 @@ class AppManager private constructor(private val context: Context) {
         } catch (e: Exception) {
             deleteEncryptedPrefsFile()
         }
+        // Also clear session backup so the user is fully signed out
+        sessionBackupPrefs.edit().remove(Const.IS_LOGIN).apply()
     }
 
     private fun deleteEncryptedPrefsFile() {

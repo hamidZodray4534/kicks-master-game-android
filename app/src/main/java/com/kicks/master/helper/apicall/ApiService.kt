@@ -26,7 +26,7 @@ interface ApiService {
     suspend fun getOffer(@Query("slug") slug: String = "mega-offer"): Response<MegaOfferResponse>
 
     @GET("home-page")
-    suspend fun getHomeData(): Response<HomeResponse>
+    suspend fun getHomeData(@Query("offer_data") offerData: String): Response<HomeResponse>
     @GET("splash-screen")
     suspend fun getSplashData(): Response<SplashResponse>
 
