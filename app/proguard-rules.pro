@@ -85,6 +85,22 @@
 -keep class com.fyber.** { *; }
 -dontwarn com.fyber.**
 
+# CloudX
+-keep class io.cloudx.** { *; }
+-dontwarn io.cloudx.**
+
+# Moloco
+-keep class com.moloco.** { *; }
+-dontwarn com.moloco.**
+
+# Magnite
+-keep class com.rubiconproject.** { *; }
+-dontwarn com.rubiconproject.**
+
+# Digital Turbine
+-keep class com.digitalturbine.** { *; }
+-dontwarn com.digitalturbine.**
+
 # OneSignal
 -keep class com.onesignal.** { *; }
 -dontwarn com.onesignal.**
