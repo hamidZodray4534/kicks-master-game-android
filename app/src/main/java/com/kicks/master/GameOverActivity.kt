@@ -99,7 +99,7 @@ class GameOverActivity : AppCompatActivity() {
         if (finalScore < MIN_SCORE_FOR_CLAIM) {
             binding.btnTapToClaim.visibility = View.INVISIBLE
             binding.root.postDelayed({
-              AppDialog.lowScoreDialog(this) { handleRetry() }
+                AppDialog.lowScoreDialog(this) { handleRetry() }
             }, 300)
         } else {
             binding.btnTapToClaim.visibility = View.VISIBLE
@@ -153,9 +153,7 @@ class GameOverActivity : AppCompatActivity() {
         //If already loading → show message
         if (isAdLoading) {
             Toast.makeText(
-                this,
-                "Getting your reward ready… please wait",
-                Toast.LENGTH_SHORT
+                this, "Getting your reward ready… please wait", Toast.LENGTH_SHORT
             ).show()
             return
         }
@@ -187,9 +185,11 @@ class GameOverActivity : AppCompatActivity() {
                     onRewardSuccess(currentGems, rewardAmount)
                 },
                 onFailedCallback = {
+                    if (_binding == null) return@provider
                     isAdLoading = false
                     binding.tvButtonClaim.text = originalButtonText
-                    Toast.makeText(this, "Ads not ready. Please try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Ads not ready. Please try again.", Toast.LENGTH_SHORT)
+                        .show()
                 })
         } else {
             Log.w(TAG, "No Ad config found for game_over section")
@@ -198,13 +198,14 @@ class GameOverActivity : AppCompatActivity() {
     }
 
     private fun onRewardSuccess(currentGems: Int, rewardAmount: Int) {
+        if (isFinishing || isDestroyed || _binding == null) return  // activity gone, ignore
         if (!claimed) {
             claimed = true
             isAdLoading = false
             binding.tvButtonClaim.text = originalButtonText
             playPulseAnimation(binding.btnTapToClaim)
             val finalReward = if (rewardAmount > 0) rewardAmount else gemReward
-           // Toast.makeText(this, "🎉 Reward Claimed! +$finalReward Gem", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "🎉 Reward Claimed! +$finalReward Gem", Toast.LENGTH_SHORT).show()
             handleHome(currentGems, finalReward)
         }
     }

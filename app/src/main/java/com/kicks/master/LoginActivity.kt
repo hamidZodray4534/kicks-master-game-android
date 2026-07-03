@@ -48,14 +48,14 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onGoogleSignInCancelled()
                 return@registerForActivityResult
             }
-           val subId= Constant.getString(this, Constant.SUB_ID)
+            val subId = Constant.getString(this, Constant.SUB_ID)
 
-            val clickId = Constant.getString(this,Constant.CLICK_ID)
+            val clickId = Constant.getString(this, Constant.CLICK_ID)
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                viewModel.onGoogleAccountReceived(account,clickId,subId)
+                viewModel.onGoogleAccountReceived(account, clickId, subId)
             } catch (e: ApiException) {
                 Log.w(TAG, "GoogleSignIn ApiException statusCode=${e.statusCode}", e)
                 viewModel.onGoogleSignInFailed(e.statusCode)
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         appManager = AppManager.getInstance(this)
-        
+
 
 
         initGoogleSignIn()
@@ -101,14 +101,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun initGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestProfile()
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+            .requestProfile().requestIdToken(getString(R.string.default_web_client_id)).build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
@@ -136,6 +131,7 @@ class LoginActivity : AppCompatActivity() {
                     persistUserAndNavigate(event.user)
                     viewModel.clearEvent()
                 }
+
                 is LoginViewModel.LoginEvent.ShowError -> {
                     Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show()
                     viewModel.clearEvent()
@@ -145,10 +141,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun launchGoogleSignIn() {
+        if (isFinishing || isDestroyed) return
         setSignInLoading(true)
+        binding.btnGoogleSignIn.isEnabled = false   // kill double-tap race immediately
+
         googleSignInClient.signOut().addOnCompleteListener {
-            val signInIntent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(signInIntent)
+            // Activity may have died while signOut() was in flight
+            if (isFinishing || isDestroyed) return@addOnCompleteListener
+            if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.CREATED)
+                    .not()
+            ) {
+                return@addOnCompleteListener
+            }
+            try {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            } catch (e: IllegalStateException) {
+                Log.w(TAG, "Launcher unregistered before signInIntent could launch", e)
+            }
         }
     }
 
@@ -185,8 +195,10 @@ class LoginActivity : AppCompatActivity() {
     private fun applyImmersiveMode() {
         // Draw edge-to-edge but set the status bar color so it doesn't look like an overlap.
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
-        window.navigationBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
+        window.statusBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
+        window.navigationBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
 
         WindowInsetsControllerCompat(window, window.decorView).let { ctrl ->
             ctrl.isAppearanceLightStatusBars = false
