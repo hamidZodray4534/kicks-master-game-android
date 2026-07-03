@@ -32,11 +32,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import com.kicks.master.databinding.ActivityMainBinding
 import com.kicks.master.helper.AppManager
 import com.kicks.master.main.MainViewModel
 import com.kicks.master.utills.AppDialog
 import com.kicks.master.utills.DialogUtils
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -807,7 +809,10 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.gameWebView.onResume()
         if (isPlaying) applyGameImmersiveMode() else applyImmersiveMode()
-        mainViewModel.fetchHomeData(this, forceRefresh = true)
+
+        lifecycleScope.launch {
+            mainViewModel.fetchHomeData(this@MainActivity, true)
+        }
     }
 
     override fun onPause() {
