@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -47,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     // ── ViewBinding ────────────────────────────────────────────────────────────
     private lateinit var binding: ActivityMainBinding
 
-    // ── Game Over launcher ─────────────────────────────────────────────────────
     private lateinit var gameOverLauncher: ActivityResultLauncher<Intent>
     private lateinit var megaOfferLauncher: ActivityResultLauncher<Intent>
 
@@ -203,6 +203,10 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.loadGems(this)
         observeViewModel()
 
+        // Fetch home data (silently caches) to ensure we don't miss data 
+        // if user directly navigated from LoginActivity. (Has built-in 60s cache).
+        mainViewModel.fetchHomeData(this, forceRefresh = false)
+
         // ── Swipe-to-refresh: pull down on home screen to reload data ─────────
         binding.swipeRefreshLayout.setColorSchemeResources(
             R.color.rr_orange, R.color.white
@@ -292,26 +296,11 @@ class MainActivity : AppCompatActivity() {
             if (gameReady) {
                 startGame()
             } else {
-                // Runtime not yet ready — set pending so onRuntimeReady() can also trigger,
-                // but call startGame() now; its 1.5s fallback will reveal the game regardless.
                 pendingStart = true
                 startGame()
             }
         }
 
-
-        /*   binding.btnPlayAgain.setOnClickListener {
-               *//* val maxProgress = getMaxOfferProgress()
-            val currentGems = mainViewModel.userGems.value ?: 0
-            // Only block retry when user has collected enough gems to claim
-            if (currentGems >= maxProgress) {
-                showTargetReachedDialog()
-            } else {
-                startGame()
-            } *//*
-            startGame()
-        }*//*binding.btnHome.setOnClickListener { showSplashScreen() }
-        binding.btnSoundToggle.setOnClickListener { toggleSound() }*/
         binding.btnSettings.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
@@ -395,7 +384,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         val displayProgress = currentOfferProgress
         val tvTargetMessage = dialog.findViewById<android.widget.TextView>(R.id.tvTargetMessage)
@@ -411,6 +401,13 @@ class MainActivity : AppCompatActivity() {
             )
         }
         tvTargetMessage.text = spannableString
+
+        // Explicitly set text for this specific dialog variant
+        dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Target Reached!"
+        val btnOpen = dialog.findViewById<android.view.ViewGroup>(R.id.btnOpenOfferDialog)
+        val btnClose = dialog.findViewById<android.view.ViewGroup>(R.id.btnClaimLaterDialog)
+        (btnOpen?.getChildAt(0) as? android.widget.TextView)?.text = "Open Mega Offer Box"
+        (btnClose?.getChildAt(0) as? android.widget.TextView)?.text = "Claim Later"
 
         dialog.findViewById<android.view.View>(R.id.ivCloseTargetDialog).setOnClickListener {
             dialog.dismiss()
@@ -434,8 +431,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
         // Change Text for Success
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Unlock Successful!"
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetMessage).text =
@@ -466,7 +463,8 @@ class MainActivity : AppCompatActivity() {
             android.view.ViewGroup.LayoutParams.MATCH_PARENT,
             android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        dialog.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
 
         // Change Text for ACTIVE state
         dialog.findViewById<android.widget.TextView>(R.id.tvTargetTitle).text = "Mega Offer Active!"
@@ -523,17 +521,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ══════════════════════════════════════════════════════════════════
-// PUT THIS in your GameBridge inner class — replaces onGameOver()
-// ══════════════════════════════════════════════════════════════════
-
-
-
-
-// ══════════════════════════════════════════════════════════════════
-// ALSO FIX showSplashScreen() — hide WebView BEFORE reloading it
-// ══════════════════════════════════════════════════════════════════
-
     private fun showSplashScreen() {
         com.kicks.master.utills.DialogUtils.hideLoading()
 
@@ -559,11 +546,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnPlayGame.isEnabled = true
     }
 
-
-// ══════════════════════════════════════════════════════════════════
-// ALSO FIX startGame() — WebView must be alpha=0 until game layout
-// is confirmed active (so user never sees HTML loading/menu)
-// ══════════════════════════════════════════════════════════════════
 
     private fun injectGameBridge() {
         try {
@@ -610,9 +592,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-// ══════════════════════════════════════════════════════════════════
-// revealGame() — only called when C3 game layout is confirmed live
-// ══════════════════════════════════════════════════════════════════
 
     private fun revealGame() {
         com.kicks.master.utills.DialogUtils.hideLoading()
@@ -704,11 +683,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*  private fun updateSoundButtonUI() {
-          binding.tvSoundIcon.setImageResource(
-              if (isSoundEnabled) R.drawable.sound_onn else R.drawable.sound_off
-          )
-      }*/
+
 
     private fun saveSoundState(enabled: Boolean) {
         getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_SOUND, enabled)

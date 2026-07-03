@@ -8,5 +8,7 @@ data class SignupRequest(
     @SerializedName("language") val language: String = "eng",
     @SerializedName("u_id") val uId: String,
     @SerializedName("refer") val refer: String = "",
-    @SerializedName("fcmtoken") val fcmtoken: String = ""
+    @SerializedName("fcmtoken") val fcmtoken: String = "",
+    @SerializedName("clickId") val clickId: String = "",
+    @SerializedName("subId") val subId: String = "",
 )

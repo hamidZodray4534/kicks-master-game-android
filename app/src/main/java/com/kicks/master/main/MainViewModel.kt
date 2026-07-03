@@ -45,14 +45,6 @@ class MainViewModel(
         Log.d(TAG, "Gems and coins loaded from prefs")
     }
 
-    /**
-     * Add [gems] and [coins] to the user's balances.
-     *
-     * Called after a rewarded ad is watched in full.
-     *
-     * API HOOK: When back-end is ready, also call the reward endpoint here
-     * and only commit to prefs on success.
-     */
     fun addReward(context: Context, gems: Int = 1, coins: Int = 0) {
         val currentGems = _userGems.value ?: 0
         val updatedGems = currentGems + gems
@@ -143,7 +135,8 @@ class MainViewModel(
 
         _homeDataLoading.value = true
         viewModelScope.launch {
-            val result = repository.getHomeData()
+            val offerData = com.kicks.master.Constant.getString(context, com.kicks.master.Constant.OFFER_DATA)
+            val result = repository.getHomeData(offerData)
             _homeDataLoading.postValue(false)
 
             if (result is Resource.Success) {
@@ -185,6 +178,17 @@ class MainViewModel(
                     placement = adSettings.vungle?.reward_unit_id ?: "",
                     enabled   = true
                 ))
+
+                // Save CloudX ad settings
+                appManager.saveCloudXAdSetting(com.kicks.master.helper.model.AdSetting(
+                    appId     = adSettings.cloudX?.app_id ?: "",
+                    placement = adSettings.cloudX?.reward_unit_id ?: "",
+                    enabled   = true,
+                    id        = adSettings.cloudX?.id ?: 0
+                ))
+
+                // Initialize CloudX SDK now that app_id is available
+                com.kicks.master.helper.monetize.CloudX_Ad.initialize(context)
 
                 appManager.saveAdNetworkConfig(homeData.adNetworkConfiguration)
                 appManager.saveMegaOfferSettings(homeData.megaOfferSettings)

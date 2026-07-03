@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- Required for push notifications on Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".AppController"
@@ -25,32 +27,59 @@
             android:exported="false" />
         <activity
             android:name=".SettingActivity"
-            android:exported="false" /> <!-- LAUNCHER: Splash Screen -->
+            android:exported="false" />
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false" />
+        <!-- LAUNCHER: Splash Screen -->
         <activity
             android:name=".SplashActivity"
-
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Deep Link Handlers for tracking referrers directly -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Web Links -->
+                <data android:scheme="https" android:host="track.pubglory.com" />
+                <data android:scheme="https" android:host="kicksmasteradmin.bonixgames.com" />
+                <!-- Custom App Scheme (kicksmaster://referral?clickId=...) -->
+                <data android:scheme="kicksmaster" android:host="referral" />
             </intent-filter>
         </activity>
         <!-- Main Game Activity -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
+            android:exported="true"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <!-- Deep-link handler for push notification taps (kicksmaster://...) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="kicksmaster" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".GameOverActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <!-- OneSignal: custom notification service extension -->
+        <meta-data
+            android:name="com.onesignal.NotificationServiceExtension"
+            android:value="com.kicks.master.helper.NotificationServiceExtension" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,10 +1,14 @@
 package com.kicks.master.megaoffer
 
+import android.content.Context
+import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kicks.master.AppController
+import com.kicks.master.Constant
 import com.kicks.master.helper.apicall.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -22,25 +26,32 @@ class MegaOfferViewModel : ViewModel() {
     private val _event = MutableLiveData<Event?>()
     val event: LiveData<Event?> get() = _event
 
-    /**
-     * Called after the rewarded ad completes.
-     * @param rewardAmount gems earned from ad network
-     * @param coinReward   coins from MegaOfferSettings.win_coin_reward (passed in by Activity)
-     */
     fun onRewardEarned(rewardAmount: Int, coinReward: Int) {
         _event.value = Event.RewardEarned(gems = rewardAmount, coins = coinReward, rewardAmount = coinReward)
     }
 
-    /**
-     * Calls POST /offers/mega-offer/credit to credit coins/gems to the user.
-     * @param offerId obtained from fetchOfferReward in the Activity
-     * @param offerType obtained from MegaOfferSettings (slug)
-     */
-    fun creditMegaOffer(offerId: String, offerType: String) {
+    private fun decodeOfferData(encoded: String): String {
+        return try {
+            val decoded = String(Base64.decode(encoded, Base64.DEFAULT))
+            Log.d("MegaOfferViewModel", "► Decoded offer_data: $decoded")
+            decoded
+        } catch (e: Exception) {
+            Log.e("MegaOfferViewModel", "► Failed to Base64-decode offer_data: ${e.message}")
+            "Failed to Base64-decode offer_data: ${e.message}"
+        }
+    }
+
+    fun creditMegaOffer(context: Context,offerId: String, offerType: String, clickId: String, subId: String) {
         viewModelScope.launch {
             try {
-                Log.d("MegaOfferViewModel", "► Calling creditMegaOffer API: offer_id=$offerId, offer_type=$offerType")
-                val response = RetrofitClient.apiService.addMegaOffer(offerId, offerType)
+
+                val offerData= Constant.getString(context, Constant.OFFER_DATA)
+
+                // Decode Base64 → parse JSON → extract coins value
+                val decodedCoins = if (offerData.isNotBlank()) decodeOfferData(offerData) else "Server not send code"
+
+                Log.d("MegaOfferViewModel", "► Calling creditMegaOffer API: offer_id=$offerId, offer_type=$offerType, raw_offer_data='$offerData', decoded_coins='$decodedCoins'")
+                val response = RetrofitClient.apiService.addMegaOffer(offerId, offerType, clickId, subId, decodedCoins)
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("MegaOfferViewModel", "► creditMegaOffer API Success: $body")

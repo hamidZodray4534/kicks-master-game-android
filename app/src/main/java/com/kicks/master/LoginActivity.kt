@@ -27,19 +27,18 @@ class LoginActivity : AppCompatActivity() {
 
     private val TAG = "LoginActivity"
 
-    // ── ViewBinding ───────────────────────────────────────────────────────────
+    // ── ViewBinding
     private lateinit var binding: ActivityLoginBinding
 
-    // ── ViewModel ─────────────────────────────────────────────────────────────
+    // ── ViewModel ──
     private val viewModel: LoginViewModel by viewModels()
 
-    // ── Google sign-in ────────────────────────────────────────────────────────
+    // ── Google sign-in
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // ── Managers ──────────────────────────────────────────────────────────────
+    // ── Managers ───
     private lateinit var appManager: AppManager
 
-    // ── Activity result launcher ───────────────────────────────────────────────
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             setSignInLoading(false)
@@ -49,26 +48,25 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.onGoogleSignInCancelled()
                 return@registerForActivityResult
             }
+            val subId = Constant.getString(this, Constant.SUB_ID)
+
+            val clickId = Constant.getString(this, Constant.CLICK_ID)
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                viewModel.onGoogleAccountReceived(account)
+                viewModel.onGoogleAccountReceived(account, clickId, subId)
             } catch (e: ApiException) {
                 Log.w(TAG, "GoogleSignIn ApiException statusCode=${e.statusCode}", e)
                 viewModel.onGoogleSignInFailed(e.statusCode)
             }
         }
 
-    // ── Notification permission launcher ──────────────────────────────────────
+
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             Log.d(TAG, "Notification permission granted=$granted")
         }
-
-    // ═════════════════════════════════════════════════════════════════════════
-    // Lifecycle
-    // ═════════════════════════════════════════════════════════════════════════
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +84,8 @@ class LoginActivity : AppCompatActivity() {
 
         appManager = AppManager.getInstance(this)
 
+
+
         initGoogleSignIn()
         observeViewModel()
         setupClickListeners()
@@ -100,16 +100,10 @@ class LoginActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Setup
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun initGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestProfile()
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+            .requestProfile().requestIdToken(getString(R.string.default_web_client_id)).build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
@@ -119,9 +113,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // ViewModel observation
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun observeViewModel() {
         viewModel.loading.observe(this) { isLoading ->
@@ -140,6 +131,7 @@ class LoginActivity : AppCompatActivity() {
                     persistUserAndNavigate(event.user)
                     viewModel.clearEvent()
                 }
+
                 is LoginViewModel.LoginEvent.ShowError -> {
                     Toast.makeText(this, event.message, Toast.LENGTH_SHORT).show()
                     viewModel.clearEvent()
@@ -148,19 +140,27 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Google sign-in actions
-    // ═════════════════════════════════════════════════════════════════════════
-
     private fun launchGoogleSignIn() {
+        if (isFinishing || isDestroyed) return
         setSignInLoading(true)
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent)
-    }
+        binding.btnGoogleSignIn.isEnabled = false   // kill double-tap race immediately
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // User persistence & navigation
-    // ═════════════════════════════════════════════════════════════════════════
+        googleSignInClient.signOut().addOnCompleteListener {
+            // Activity may have died while signOut() was in flight
+            if (isFinishing || isDestroyed) return@addOnCompleteListener
+            if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.CREATED)
+                    .not()
+            ) {
+                return@addOnCompleteListener
+            }
+            try {
+                val signInIntent = googleSignInClient.signInIntent
+                googleSignInLauncher.launch(signInIntent)
+            } catch (e: IllegalStateException) {
+                Log.w(TAG, "Launcher unregistered before signInIntent could launch", e)
+            }
+        }
+    }
 
 
     private fun persistUserAndNavigate(user: User) {
@@ -178,19 +178,12 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // UI Helpers
-    // ═════════════════════════════════════════════════════════════════════════
 
-    /** Dim the sign-in button while the auth request is in-flight. */
     private fun setSignInLoading(loading: Boolean) {
         binding.btnGoogleSignIn.isEnabled = !loading
         binding.btnGoogleSignIn.alpha = if (loading) 0.6f else 1f
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Permissions
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -198,15 +191,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // Immersive mode
-    // ═════════════════════════════════════════════════════════════════════════
 
     private fun applyImmersiveMode() {
         // Draw edge-to-edge but set the status bar color so it doesn't look like an overlap.
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
-        window.navigationBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
+        window.statusBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
+        window.navigationBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
 
         WindowInsetsControllerCompat(window, window.decorView).let { ctrl ->
             ctrl.isAppearanceLightStatusBars = false

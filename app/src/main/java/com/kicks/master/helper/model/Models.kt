@@ -19,7 +19,7 @@ data class SettingData(
     @SerializedName("maintenance_mode") val maintenanceMode: Boolean = false,
     @SerializedName("app_version")      val appVersion: String        = "",
     @SerializedName("force_update")     val forceUpdate: Boolean       = false,
-    @SerializedName("min_redeem")       val minRedeem: Int             = 0
+    @SerializedName("min_redeem")       val minRedeem: Int             = 0,
 )
 
 /**

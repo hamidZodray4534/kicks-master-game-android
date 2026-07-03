@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import com.kicks.master.Constant
+import com.kicks.master.helper.AppManager
 import com.onesignal.notifications.INotificationClickEvent
 import com.onesignal.notifications.INotificationClickListener
 import com.kicks.master.helper.NotificationRouter
@@ -24,6 +26,7 @@ object SdkInitManager {
     private val fairBidInitialized = AtomicBoolean(false)
     private val unityInitialized = AtomicBoolean(false)
     private val vungleInitialized = AtomicBoolean(false)
+    private val cloudXInitialized = AtomicBoolean(false)
     private val oneSignalScheduled = AtomicBoolean(false)
 
 
@@ -62,12 +65,22 @@ object SdkInitManager {
         VungleRewardedManager.init(context)
     }
 
+    fun ensureCloudX(context: Context, onReady: (() -> Unit)? = null) {
+        if (!cloudXInitialized.compareAndSet(false, true)) {
+            onReady?.invoke()
+            return
+        }
+        Log.d(TAG, "ensureCloudX: initializing on first CloudX ad request")
+        CloudX_Ad.initialize(context, onReady)
+    }
+
     fun resetForTest() {
         admobInitialized.set(false)
         fbInitialized.set(false)
         fairBidInitialized.set(false)
         unityInitialized.set(false)
         vungleInitialized.set(false)
+        cloudXInitialized.set(false)
         oneSignalScheduled.set(false)
     }
 
@@ -77,7 +90,7 @@ object SdkInitManager {
 
         android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
             try {
-                val appId = "AppManager.getInstance(context).getSetting()?.app_config?.onesignal_app_id"
+                val appId = Constant.getString(context, Constant.ONE_SIGNAL_ID)
 
                 if (appId.isNullOrBlank()) {
                     Log.d(TAG, "No OneSignal app ID configured — skipped")
@@ -87,7 +100,14 @@ object SdkInitManager {
                 com.onesignal.OneSignal.Debug.logLevel = com.onesignal.debug.LogLevel.NONE
                 com.onesignal.OneSignal.initWithContext(context.applicationContext, appId)
 
-                // ── Store subscription ID ────────────────────────────────────
+                // ── Immediately capture existing subscription ID (already registered devices) ──
+                val existingId = com.onesignal.OneSignal.User.pushSubscription.id
+                if (!existingId.isNullOrBlank()) {
+                    OneSignalHolder.subscriptionId = existingId
+                    Log.d(TAG, "Existing Subscription ID captured: $existingId")
+                }
+
+                // ── Observe future subscription ID changes ───────────────────
                 com.onesignal.OneSignal.User.pushSubscription.addObserver(
                     object : com.onesignal.user.subscriptions.IPushSubscriptionObserver {
                         override fun onPushSubscriptionChange(
@@ -117,7 +137,7 @@ object SdkInitManager {
                             val appContext = context.applicationContext
                             val additionalData =
                                 event.notification.additionalData   // your JSON data{}
-                            val launchURL = event.notification.launchURL        // zodrewards://...
+                            val launchURL = event.notification.launchURL        // kicksmaster://...
 
                             Log.d(
                                 TAG,

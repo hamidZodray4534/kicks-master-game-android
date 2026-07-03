@@ -82,7 +82,7 @@ class MegaOfferActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnWatchAd.setOnClickListener {
-            binding.btnWatchAd.isEnabled = true
+            setWatchAdButtonState(true)
             showRewardedAd()
         }
 
@@ -151,9 +151,10 @@ class MegaOfferActivity : AppCompatActivity() {
                 onCompleteCallback = { _, _ ->
                     if (Constant.getString(this@MegaOfferActivity, Constant.MEGA_OFFER_ACTIVE) != "1") {
                         Log.w(TAG, "► Ad completed but MEGA_OFFER_ACTIVE is not 1. User might not have clicked the ad.")
-                        binding.btnWatchAd.isEnabled = true
+                        setWatchAdButtonState(false)
                     } else {
                         binding.btnWatchAd.isEnabled = false
+                        binding.tvWatchAdBtnText.text = "Checking Offer..."
                         Log.d(TAG, "► Ad completed and MEGA_OFFER_ACTIVE is 1. Waiting for user to return from store.")
                         DialogUtils.showLoading(this@MegaOfferActivity)
                     }
@@ -162,14 +163,20 @@ class MegaOfferActivity : AppCompatActivity() {
 
                     Log.e(TAG, "All ad networks failed")
                     Toast.makeText(this, "Ad not ready.", Toast.LENGTH_SHORT).show()
-                    binding.btnWatchAd.isEnabled = true
+                    setWatchAdButtonState(false)
                 }
             )
         } else {
             Log.w(TAG, "No Ad config found")
             Toast.makeText(this, "Ad not available right now.", Toast.LENGTH_SHORT).show()
-            binding.btnWatchAd.isEnabled = true
+            setWatchAdButtonState(false)
         }
+    }
+
+    private fun setWatchAdButtonState(isLoading: Boolean) {
+        binding.btnWatchAd.isEnabled = !isLoading
+        binding.tvWatchAdBtnText.text = if (isLoading) "Reward Loading..." else "Watch Ad"
+        binding.btnWatchAd.alpha = if (isLoading) 0.6f else 1.0f
     }
 
     private fun applyImmersiveMode() {
@@ -187,7 +194,8 @@ class MegaOfferActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         applyImmersiveMode()
-
+        val clickId = Constant.getString(this, Constant.CLICK_ID)
+        val subId = Constant.getString(this, Constant.SUB_ID)
         // Existing business logic: verify app install after returning from store
         if (Constant.getString(this, Constant.MEGA_OFFER_ACTIVE) == "1") {
           DialogUtils.showLoading(this)
@@ -206,9 +214,10 @@ class MegaOfferActivity : AppCompatActivity() {
                // val finalOfferId =  settings?.id ?: 0
                 val offerType = settings?.slug ?: "mega-offer"
 
+                val offerData = Constant.getString(this, Constant.OFFER_DATA)
                 if (finalOfferId > 0) {
-                    Log.d(TAG, "► Install check passed. Calling creditMegaOffer for ID: $finalOfferId, Type: $offerType")
-                    viewModel.creditMegaOffer(finalOfferId.toString(), offerType)
+                    Log.d(TAG, "► Install check passed. Calling creditMegaOffer for ID: $finalOfferId, Type: $offerType, offer_data=$offerData")
+                    viewModel.creditMegaOffer(this,finalOfferId.toString(), offerType, clickId, subId)
                 } else {
                     Log.e(TAG, "► Install check passed BUT offerId is unknown. Falling back to local reward logic.")
                     val gemReward = AppManager.getInstance(this).getMegaOfferSettings()?.win_gem_reward ?: 1
@@ -234,7 +243,7 @@ class MegaOfferActivity : AppCompatActivity() {
         }
         dialog.findViewById<View>(R.id.btnRetry).setOnClickListener {
             dialog.dismiss()
-            binding.btnWatchAd.isEnabled = true
+            setWatchAdButtonState(false)
             binding.btnWatchAd.performClick()
         }
         dialog.setCancelable(false)
@@ -261,7 +270,7 @@ class MegaOfferActivity : AppCompatActivity() {
         }
         dialog.findViewById<View>(R.id.btnRetry).setOnClickListener {
             dialog.dismiss()
-            binding.btnWatchAd.isEnabled = true
+            setWatchAdButtonState(false)
             binding.btnWatchAd.performClick()
         }
         dialog.setCancelable(false)

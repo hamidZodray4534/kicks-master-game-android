@@ -15,8 +15,8 @@ class NotificationServiceExtension : INotificationServiceExtension {
     companion object {
         private const val TAG = "NotifServiceExt"
 
-        private const val CHANNEL_ID      = "zod_rewards_channel"
-        private const val CHANNEL_NAME    = "Zod Rewards Notifications"
+        private const val CHANNEL_ID      = "kicks_master_channel"
+        private const val CHANNEL_NAME    = "Kicks Master Notifications"
     }
 
     override fun onNotificationReceived(event: INotificationReceivedEvent) {
@@ -32,22 +32,6 @@ class NotificationServiceExtension : INotificationServiceExtension {
 
         Log.d(TAG, "onNotificationReceived: imageUrl=$imageUrl")
 
-        event.preventDefault()
-
-  /*      val bitmap: Bitmap? = if (!imageUrl.isNullOrBlank()) {
-            try {
-                Glide.with(context)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .submit()
-                    .get()
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to load notification image: $imageUrl", e)
-                null
-            }
-        } else null*/
-
-       // val appIconBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.app_logo)
         notification.setExtender { builder ->
             builder
                 .setChannelId(CHANNEL_ID)
@@ -90,7 +74,7 @@ class NotificationServiceExtension : INotificationServiceExtension {
             CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
-            description = "Push notifications for Zod Rewards"
+            description = "Push notifications for Kicks Master"
             enableVibration(true)
             vibrationPattern = longArrayOf(0L, 300L, 100L, 300L)
            // setSound(soundUri, audioAttributes)

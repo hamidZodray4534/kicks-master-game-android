@@ -370,6 +370,21 @@ object ads_provider {
                 }
             }
 
+            "cloudx", "cloud x", "cloud-x" -> {
+                CloudX_Ad.showRewardedAd(
+                    activity,
+                    onAdComplete = {
+                        onComplete()
+                        preloadAllRewarded(activity)
+                    },
+                    onAdFailed = {
+                        onFailed()
+                        preloadAllRewarded(activity)
+                    },
+                    onAdClicked = { onClicked() }
+                )
+            }
+
             else -> {
                 Log.w(TAG, "Unknown ad network: $adNetwork — skipping")
                 onFailed()
@@ -629,6 +644,7 @@ object ads_provider {
             "adx" -> AdxAdapter.loadAd(activity)
             "unity ads" -> Unity_Ad.loadRewardedAd()
             "vungle" -> VungleRewardedManager.init(activity)
+            "cloudx", "cloud x", "cloud-x" -> CloudX_Ad.requestRewarded(activity)
         }
     }
 
@@ -662,6 +678,10 @@ object ads_provider {
         handler.postDelayed({
             try { Unity_Ad.loadRewardedAd() } catch (e: Exception) { Log.e(TAG, "Unity preload failed", e) }
         }, 450)
+
+        handler.postDelayed({
+            try { CloudX_Ad.requestRewarded(appContext) } catch (e: Exception) { Log.e(TAG, "CloudX preload failed", e) }
+        }, 600)
     }
 
     private fun getImpressionLimit(activity: Activity, adNetwork: String): Int {

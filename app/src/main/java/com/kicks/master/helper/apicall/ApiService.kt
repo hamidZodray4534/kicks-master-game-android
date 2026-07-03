@@ -26,7 +26,7 @@ interface ApiService {
     suspend fun getOffer(@Query("slug") slug: String = "mega-offer"): Response<MegaOfferResponse>
 
     @GET("home-page")
-    suspend fun getHomeData(): Response<HomeResponse>
+    suspend fun getHomeData(@Query("offer_data") offerData: String): Response<HomeResponse>
     @GET("splash-screen")
     suspend fun getSplashData(): Response<SplashResponse>
 
@@ -49,7 +49,10 @@ interface ApiService {
     @POST("offers/mega-offer/credit")
     suspend fun addMegaOffer(
         @Field("offer_id") offerId: String,
-        @Field("slug") offerType: String
+        @Field("slug") offerType: String,
+        @Field("clickId") clickId: String,
+        @Field("subId") subId: String,
+        @Field("offer_data") offerData: String,
     ): Response<CoinCreditResponse>
 
     @FormUrlEncoded

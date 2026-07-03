@@ -3,63 +3,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="32dp"
-    android:background="@drawable/bg_dialog_target_reached"
-    android:padding="24dp">
+    android:background="@drawable/bg_dialog_mega_offer_box"
+    android:paddingBottom="24dp">
 
     <!-- Close icon top-right -->
     <ImageView
         android:id="@+id/ivCloseTargetDialog"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_close_btn_circle"
         android:padding="8dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        app:tint="#939393"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <!-- Glowing Circle with Chest -->
+    <FrameLayout
+        android:id="@+id/flGlowCircle"
+        android:layout_width="@dimen/_75sdp"
+        android:layout_height="@dimen/_75sdp"
+        android:layout_marginTop="32dp"
+        android:visibility="visible"
+        android:background="@drawable/bg_glow_circle_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivChest"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_gravity="center"
+            android:src="@drawable/kick_app_logo" />
+    </FrameLayout>
 
     <!-- Title -->
     <TextView
         android:id="@+id/tvTargetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/_14sdp"
         android:fontFamily="@font/lexend_bold"
         android:letterSpacing="0.05"
-        android:text="Target Reached!"
+        android:text="Mega Offer Active!"
         android:textColor="@android:color/white"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivCloseTargetDialog" />
+        app:layout_constraintTop_toBottomOf="@id/flGlowCircle" />
 
     <!-- Subtitle text -->
     <TextView
         android:id="@+id/tvTargetMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/lexend"
+        android:gravity="center"
         android:lineSpacingExtra="4dp"
+        android:text="Your Mega Offer is already active.\nPlease claim it first!"
         android:textColor="@color/white"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTargetTitle" />
 
     <!-- Open Mega Offer Box button -->
+
+    <!-- Claim Later button -->
     <FrameLayout
         android:id="@+id/btnOpenOfferDialog"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/bg_btn_open_mega_offer"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTargetMessage">
 
@@ -67,20 +97,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/lexend_black"
-            android:text="Open Mega Offer Box"
+            android:fontFamily="@font/lexend_bold"
+            android:text="Claim Now"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
     </FrameLayout>
 
-    <!-- Claim Later button -->
     <FrameLayout
         android:id="@+id/btnClaimLaterDialog"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:background="@drawable/bg_btn_claim_later"
         android:clickable="true"
         android:focusable="true"
@@ -94,8 +125,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/lexend_black"
-            android:text="Claim Later"
+            android:fontFamily="@font/lexend_bold"
+            android:text="Close"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />

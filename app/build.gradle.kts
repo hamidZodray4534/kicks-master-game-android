@@ -13,8 +13,8 @@ android {
         applicationId = "com.kicks.master"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 21
+        versionName = "1.2.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
     }
@@ -53,6 +53,15 @@ android {
             jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
         }
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+            keepDebugSymbols += "**/*.so"
+        }
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -73,6 +82,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    // Install Referrer
+    implementation("com.android.installreferrer:installreferrer:2.2")
 
     // Firebase (BOM manages all versions)
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
@@ -106,9 +117,21 @@ dependencies {
     implementation("com.inmobi.monetization:inmobi-ads-kotlin:10.8.0")
     implementation("com.google.ads.mediation:facebook:6.17.0.0")
     implementation("com.vungle:vungle-ads:7.4.2")
-    implementation("com.pangle.global:pag-sdk:7.2.0.6")
+    implementation("com.pangle.global:pag-sdk:7.9.0.9")
     // Fyber FairBid SDK
     implementation("com.fyber:fairbid-sdk:3.62.0")
+    // cloudx SDK
+    implementation("io.cloudx:sdk:4.1.1")
+
+    // Adapters for ad networks
+    implementation("io.cloudx:adapter-digitalturbine:8.4.5.0")     // Digital Turbine Marketplace SDK 8.4.5
+    implementation("io.cloudx:adapter-googlewaterfall:25.1.0.0")   // Google Mobile Ads SDK 25.1.0
+    implementation("io.cloudx:adapter-inmobi:11.2.0.0")            // InMobi SDK 11.2.0
+    implementation("io.cloudx:adapter-magnite:1.0.0.0")            // Magnite Ads SDK 1.0.0
+    implementation("io.cloudx:adapter-meta:6.21.0.0")              // Meta Audience Network 6.21.0
+    implementation("io.cloudx:adapter-moloco:4.8.0.0")             // Moloco SDK 4.8.0
+    implementation("io.cloudx:adapter-unityads:4.17.0.0")          // Unity Ads SDK 4.17.0
+    implementation("io.cloudx:adapter-vungle:7.7.3.0")
 
     // OneSignal
     implementation("com.onesignal:OneSignal:5.1.6")

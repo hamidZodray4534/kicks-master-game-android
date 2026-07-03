@@ -5,10 +5,6 @@ import com.kicks.master.model.AdxUpdateResponse
 import com.kicks.master.model.CoinCreditResponse
 import com.kicks.master.model.TrackAdsRequest
 
-/**
- * Repository for handling Ad-related API calls.
- * Uses the existing ApiService.
- */
 class AdRepository(
     private val apiService: ApiService = RetrofitClient.apiService
 ) : BaseRepository() {
@@ -21,7 +17,7 @@ class AdRepository(
         return safeApiCall { apiService.trackDtAds(request) }
     }
 
-    suspend fun creditMegaOffer(offerId: String): Resource<CoinCreditResponse> {
-        return safeApiCall { apiService.addMegaOffer(offerId,"mega_offer") }
+    suspend fun creditMegaOffer(offerId: String, clickId: String, subId: String, offerData: String = ""): Resource<CoinCreditResponse> {
+        return safeApiCall { apiService.addMegaOffer(offerId, "mega_offer", clickId, subId, offerData) }
     }
 }

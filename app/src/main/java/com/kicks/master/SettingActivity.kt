@@ -1,5 +1,7 @@
 package com.kicks.master
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +18,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         applyImmersiveMode()
-        
-        binding =ActivitySettingBinding.inflate(layoutInflater)
+
+        binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Apply window insets to prevent UI from overlapping the status bar and nav bar
@@ -31,7 +33,60 @@ class SettingActivity : AppCompatActivity() {
             handleBackAction()
         }
 
-        binding.tvVersion.text="Version ${BuildConfig.VERSION_NAME}"
+        binding.tvVersion.text = "Version ${BuildConfig.VERSION_NAME}"
+
+        // Privacy Policy click
+        binding.cardPrivacy.setOnClickListener {
+            val privacyUrl = Constant.getString(this, Constant.PRIVACY_POLICY)
+            if (privacyUrl.isNotEmpty()) {
+                val intent = Intent(this, WebViewActivity::class.java).apply {
+                    putExtra("url", privacyUrl)
+                    putExtra("title", "Privacy Policy")
+                }
+                startActivity(intent)
+            }
+        }
+        // MORE GAMES CLICK
+        binding.cardMoreGames.setOnClickListener {
+            val playStoreUrl = Constant.getString(this, Constant.PLAY_STORE_GAMES_LINK)
+            if (playStoreUrl.isNotEmpty()) {
+
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(playStoreUrl)
+                )
+
+                startActivity(intent)
+            } else {
+
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/developer?id=Zodray+Technologies+Private+Limited&hl=en_IN")
+                )
+
+                startActivity(intent)
+            }
+        }
+
+        // Rate Us click
+        binding.cardRateUs.setOnClickListener {
+            val appPackageName = packageName
+            try {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        android.net.Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
+            } catch (e: android.content.ActivityNotFoundException) {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        android.net.Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
+            }
+        }
 
         // Handle modern gesture back press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -50,8 +105,10 @@ class SettingActivity : AppCompatActivity() {
     private fun applyImmersiveMode() {
         // Draw edge-to-edge but set the status bar color so it doesn't look like an overlap.
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
-        window.navigationBarColor = androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
+        window.statusBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.status_bar_color)
+        window.navigationBarColor =
+            androidx.core.content.ContextCompat.getColor(this, R.color.bottom_bar_color)
 
         WindowInsetsControllerCompat(window, window.decorView).let { ctrl ->
             ctrl.isAppearanceLightStatusBars = false
